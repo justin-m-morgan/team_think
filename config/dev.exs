@@ -66,7 +66,7 @@ config :team_think, TeamThinkWeb.Endpoint,
     patterns: [
       ~r"priv/static/.*(js|css|png|jpeg|jpg|gif|svg)$",
       ~r"priv/gettext/.*(po)$",
-      ~r"lib/team_think_web/(live|views)/.*(ex)$",
+      ~r"lib/team_think_web/(components|live|views)/.*(ex)$",
       ~r"lib/team_think_web/templates/.*(eex)$"
     ]
   ]

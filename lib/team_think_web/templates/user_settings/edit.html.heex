@@ -1,0 +1,44 @@
+<h1 class="text-center text-6xl font-bold pt-8">Settings</h1>
+
+<.form_card title="Change Email">
+  <.form let={f} for={@email_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_email">
+    <%= if @email_changeset.action do %>
+      <.form_error_alert />
+    <% end %>
+
+    <%= hidden_input f, :action, name: "action", value: "update_email" %>
+
+    <.form_field f={f} field={:email} let={field_class}>
+      <%= email_input f, :email, required: true, class: field_class %>
+    </.form_field>
+
+    <.form_field f={f} field={:password} let={field_class}>
+      <%= password_input f, :current_password, required: true, name: "current_password", id: "current_password_for_email", class: field_class %>
+    </.form_field>
+
+    <.submit_button label="Change Email"/>
+  </.form>
+</.form_card>
+
+<.form_card title="Change Password">
+  <.form let={f} for={@password_changeset} action={Routes.user_settings_path(@conn, :update)} id="update_password">
+    <%= if @password_changeset.action do %>
+        <.form_error_alert />
+    <% end %>
+
+    <%= hidden_input f, :action, name: "action", value: "update_password" %>
+
+    <.form_field f={f} field={:password} let={field_class} label="New Password">
+      <%= password_input f, :password, required: true, class: field_class %>
+    </.form_field>
+    <.form_field f={f} field={:password_confirmation} let={field_class} label="Confirm New Password">
+      <%= password_input f, :password_confirmation, required: true, class: field_class %>
+    </.form_field>
+    <.form_field f={f} field={:current_password} let={field_class} label="Confirm New Password">
+      <%= password_input f, :current_password, required: true, class: field_class, name: "current_password", id: "current_password_for_password" %>
+    </.form_field>
+
+    <.submit_button label="Change Password"/>
+  
+</.form>
+</.form_card>

@@ -1,0 +1,20 @@
+<.form_card title="Forgot Your Password?">
+  <.form let={f} for={:user} action={Routes.user_reset_password_path(@conn, :create)}>
+    <.form_container>
+      <.form_field f={f} field={:email} let={field_class}>
+          <%= email_input f, :email, required: true, class: field_class %>
+        </.form_field>
+      <.form_field f={f} field={:password} let={field_class}>
+          <%= password_input f, :password, required: true, class: field_class %>
+      </.form_field>
+
+    <.submit_button label="Send instructions to reset password"/>
+    
+    </.form_container>
+  </.form>
+
+  <.bottom_links let={link_classes}>
+    <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: link_classes %>
+    <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: link_classes %>
+  </.bottom_links>
+</.form_card>

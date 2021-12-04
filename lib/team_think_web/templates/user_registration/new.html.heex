@@ -1,0 +1,26 @@
+<.form_card title="Register">
+<.form let={f} for={@changeset} action={Routes.user_registration_path(@conn, :create)}>
+  <%= if @changeset.action do %>
+    <.form_error_alert changeset={@changeset} />
+  <% end %>
+  <.form_container>
+    <.form_field f={f} field={:email} let={field_class}>
+      <%= email_input f, :email, required: true, class: field_class %>
+    </.form_field>
+    
+    <.form_field f={f} field={:password} let={field_class}>
+      <%= password_input f, :password, required: true, class: field_class %>
+    </.form_field>
+    
+    <.submit_button label="Register"/>
+
+  </.form_container>
+</.form>
+
+<.bottom_links let={link_classes}>
+  <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: link_classes %> 
+  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new), class: link_classes %>
+</.bottom_links>
+
+
+</.form_card>

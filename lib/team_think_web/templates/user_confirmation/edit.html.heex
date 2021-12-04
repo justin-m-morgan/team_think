@@ -1,0 +1,13 @@
+
+<.form_card title="Confirm account">
+  <.form let={_f} for={:user} action={Routes.user_confirmation_path(@conn, :update, @token)}>
+  <.submit_button label="Confirm My Account"/>
+  
+</.form>
+
+  <.bottom_links let={link_classes}>
+    <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: link_classes %>
+    <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: link_classes %>
+  </.bottom_links>
+
+</.form_card>

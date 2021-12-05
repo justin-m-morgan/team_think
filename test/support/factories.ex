@@ -1,4 +1,7 @@
 defmodule TeamThink.Factory do
+  @moduledoc """
+  Factory functions for application data
+  """
   use ExMachina.Ecto, repo: TeamThink.Repo
 
   alias TeamThink.Accounts.User

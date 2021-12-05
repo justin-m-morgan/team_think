@@ -49,7 +49,7 @@ defmodule TeamThink.AccountsTest do
   describe "get_user!/1" do
     test "raises if id is invalid" do
       assert_raise Ecto.NoResultsError, fn ->
-        Faker.random_between(1000, 10000)
+        Faker.random_between(1_000, 10_000)
         |> Accounts.get_user!()
       end
     end

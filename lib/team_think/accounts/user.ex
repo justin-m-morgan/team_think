@@ -1,4 +1,10 @@
 defmodule TeamThink.Accounts.User do
+  @moduledoc """
+  Schema for User resource. The user is an identity token
+  to which other resources may be associated but ought
+  to remain lean.
+  """
+
   use Ecto.Schema
   import Ecto.Changeset
 

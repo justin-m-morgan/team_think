@@ -1,4 +1,8 @@
 defmodule TeamThink.Accounts.UserNotifier do
+  @moduledoc """
+  Notifier for user communications
+  """
+
   import Swoosh.Email
 
   alias TeamThink.Mailer

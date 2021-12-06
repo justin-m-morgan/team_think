@@ -17,6 +17,11 @@ config :team_think, TeamThinkWeb.Endpoint,
 # Do not print debug messages in production
 config :logger, level: :info
 
+config :team_think, TeamThink.Mailer,
+    adapter: Swoosh.Adapters.Sendgrid,
+    api_key: System.get_env("SENDGRID_API_KEY")
+
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key

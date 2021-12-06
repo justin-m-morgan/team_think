@@ -12,7 +12,7 @@ defmodule TeamThink.Accounts.UserNotifier do
     email =
       new()
       |> to(recipient)
-      |> from({"TeamThink", "noreply@team-think.com"})
+      |> from({"TeamThink", "justin.coocookachoo@gmail.com"})
       |> subject(subject)
       |> html_body(html_body)
       |> text_body(text_body)

@@ -54,7 +54,8 @@ defmodule TeamThink.MixProject do
       {:ex_machina, "~> 2.7.0", only: :test},
       {:faker, only: [:dev, :test], git: "https://github.com/elixirs/faker.git"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
-      {:mjml, "~> 1.1"}
+      {:mjml, "~> 1.1"},
+      {:hackney, "~> 1.18"}
     ]
   end
 

@@ -45,14 +45,16 @@ defmodule TeamThink.MixProject do
       {:phoenix_live_dashboard, "~> 0.5"},
       {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
+      {:phoenix_swoosh, "~> 1.0"},
       {:telemetry_metrics, "~> 0.6"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:ex_machina, "~> 2.7.0", only: :test},
-      {:faker, "~> 0.16", only: :test},
-      {:credo, "~> 1.6", only: [:dev, :test], runtime: false}
+      {:faker, only: [:dev, :test], git: "https://github.com/elixirs/faker.git"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
+      {:mjml, "~> 1.1"}
     ]
   end
 

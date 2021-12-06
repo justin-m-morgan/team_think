@@ -1,4 +1,8 @@
 defmodule TeamThink.Accounts.UserToken do
+  @moduledoc """
+  Token management for user sessions
+  """
+
   use Ecto.Schema
   import Ecto.Query
 

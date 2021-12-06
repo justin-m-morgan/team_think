@@ -1,0 +1,38 @@
+<mjml>
+    <mj-body background-color="papayawhip" >
+        <mj-section>
+            <mj-column>
+                <mj-spacer height="20px" />
+            </mj-column>
+        </mj-section>
+    
+    <mj-wrapper background-color="#fbfbfb" padding="50px 30px">
+        <mj-hero>
+
+        </mj-hero>
+        <mj-section>
+            <mj-column>
+                <mj-image height="64px" src="https://team-think.herokuapp.com/images/logo.svg" />
+
+                <mj-text 
+                    vertical-align="middle" 
+                    align="center" 
+                    font-size="48px" 
+                    font-weight="bold" 
+                    font-family="helvetica" 
+                    color="papayawhip">
+                        TeamThink
+                </mj-text>
+            </mj-column>
+        </mj-section>
+        <mj-section>
+            <mj-column>
+                <mj-divider border-color="papayawhip" />
+            </mj-column>
+        </mj-section>
+        
+        {{content}}
+
+    </mj-wrapper>
+    </mj-body>
+</mjml>

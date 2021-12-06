@@ -1,4 +1,8 @@
 defmodule TeamThinkWeb.UserAuth do
+  @moduledoc """
+  Controller for managing user authentication workflow
+  """
+
   import Plug.Conn
   import Phoenix.Controller
 

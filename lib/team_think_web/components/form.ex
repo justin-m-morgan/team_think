@@ -1,4 +1,8 @@
 defmodule TeamThinkWeb.Components.Form do
+  @moduledoc """
+  Component functions for normalized forms
+  """
+
   use TeamThinkWeb, :component
 
   def form_card(assigns) do

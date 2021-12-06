@@ -1,0 +1,45 @@
+<mjml>
+    <mj-head>
+        <mj-attributes>
+            <mj-button background-color="<%= @theme_color %>" padding="12px"/>
+            <mj-text color="<%= @theme_color %>" font-family="helvetica"/>
+            <mj-divider border-color="<%= @theme_color %>" />
+        </mj-attributes>
+
+    </mj-head>
+    <mj-body background-color="<%= @theme_color %>" >
+        <mj-section>
+            <mj-column>
+                <mj-spacer height="20px" />
+            </mj-column>
+        </mj-section>
+
+        <mj-wrapper background-color="#fbfbfb" padding="50px 30px">
+            <mj-hero>
+
+            </mj-hero>
+            <mj-section>
+                <mj-column>
+                    <mj-image width="60px" height="60px" src="https://team-think.herokuapp.com/images/logo_sm.png" />
+
+                    <mj-text
+                        vertical-align="middle"
+                        align="center"
+                        font-size="48px"
+                        font-weight="bold"
+                    >
+                            TeamThink
+                    </mj-text>
+                </mj-column>
+            </mj-section>
+            <mj-section>
+                <mj-column>
+                    <mj-divider />
+                </mj-column>
+            </mj-section>
+
+            <%= @inner_content %>
+
+        </mj-wrapper>
+    </mj-body>
+</mjml>

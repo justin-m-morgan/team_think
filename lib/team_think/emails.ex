@@ -2,44 +2,39 @@ defmodule TeamThink.Emails do
   @moduledoc """
   Functions for composing email templates
   """
+  use Phoenix.Swoosh,
+    view: TeamThink.UserNotifierView,
+    layout: {TeamThink.EmailLayoutView, :base_layout}
 
-  @base_template_path "base_template.mjml"
-  @theme_color_token "papayawhip"
+  alias TeamThink.{Mailer}
+
   @theme_color "#14532d"
-  @template_directory Path.join([__DIR__, "emails"])
-  @external_resource @template_directory
 
-
-  def generate_template(file_path, tokens \\ []) do
-      with {:ok, template} <- compute_path(file_path) |> mjml_to_html() do
-        replace_tokens(template, [{@theme_color_token, @theme_color} | tokens ])
-      end
-  end
-
-  def base_layout(inner_content \\ "") do
-    @base_template_path
-    |> generate_template([
-      {@theme_color_token, @theme_color},
-      {"{{content}}", inner_content}
-      ])
+  # Delivers the email using the application mailer.
+  def deliver(email) do
+    with {:ok, _metadata} <- Mailer.deliver(email) do
+      {:ok, email}
+    end
   end
 
 
-  defp compute_path(relative_path) do
-    Path.join([@template_directory, relative_path])
+  def new_email(recipient, subject, template, assigns) do
+    new()
+    |> to(recipient)
+    |> from({"TeamThink", "justin.coocookachoo@gmail.com"})
+    |> subject(subject)
+    |> render_body(template, Map.put(assigns, :theme_color, @theme_color))
+    |> transform_mjml()
   end
 
-  defp mjml_to_html(file_path) do
-     file_path
-      |> File.read!()
+  defp transform_mjml(email) do
+    {:ok, mjml_compiled} =
+      email
+      |> Map.get(:html_body)
       |> Mjml.to_html()
+
+    Map.put(email, :html_body, mjml_compiled)
   end
 
-  defp replace_tokens(text, token_pairs) do
-    Enum.reduce(token_pairs, text,
-      fn {token, replacement}, modified_text ->
-        String.replace(modified_text, token, replacement)
-      end)
-  end
 
 end

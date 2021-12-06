@@ -1,0 +1,30 @@
+<mj-section>
+    <mj-column>
+
+        <mj-text>
+            <h1>Hi <%= @user.email %>,</h1>
+        </mj-text>
+
+        <mj-text>
+        You can change your email by visiting the URL below:
+        </mj-text>
+
+        <mj-spacer height="24px" />
+
+        <mj-button href="<%= @url %>">
+            Update Email
+        </mj-button>
+
+        <mj-spacer height="12px" />
+
+        <mj-text>
+            Direct Link: <a href="<%= @url %>"><%= @url %></a>
+        </mj-text>
+
+        <mj-spacer height="24px" />
+
+        <mj-text>
+        If you didn't request this change, please ignore this.
+        </mj-text>
+    </mj-column>
+</mj-section>

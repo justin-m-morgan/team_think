@@ -38,3 +38,5 @@ npm-debug.log
 # IEx bootstrap file
 .iex.exs
 
+# Local environment variables file 
+.envrc

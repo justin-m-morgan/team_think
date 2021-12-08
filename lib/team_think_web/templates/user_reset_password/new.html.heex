@@ -4,9 +4,7 @@
       <.form_field f={f} field={:email} let={field_class}>
           <%= email_input f, :email, required: true, class: field_class %>
         </.form_field>
-      <.form_field f={f} field={:password} let={field_class}>
-          <%= password_input f, :password, required: true, class: field_class %>
-      </.form_field>
+      
 
     <.submit_button label="Send instructions to reset password"/>
     

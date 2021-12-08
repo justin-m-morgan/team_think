@@ -9,6 +9,12 @@
 /* LiveView specific classes for your customization */
 @import "./live-view.css";
 
+@layer base {
+    body {
+        background: url("/images/pattern.svg")
+    }
+}
+
 @layer components {
     .button {
         @apply w-full py-3 px-4 border rounded-lg text-center font-bold hover:bg-accent-600 hover:text-white transition duration-200;

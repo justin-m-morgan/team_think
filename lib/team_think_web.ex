@@ -98,6 +98,9 @@ defmodule TeamThinkWeb do
       import TeamThinkWeb.ErrorHelpers
       import TeamThinkWeb.Gettext
       alias TeamThinkWeb.Router.Helpers, as: Routes
+
+      alias TeamThinkWeb.Components.{Svg, Ui}
+
     end
   end
 

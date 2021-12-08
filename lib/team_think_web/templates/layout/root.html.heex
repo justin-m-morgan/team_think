@@ -11,8 +11,8 @@
   </head>
   <body class="bg-pattern">
     <header class="bg-primary-900 py-6 text-white">
-      <section>
-        <nav class="px-8 lg:px-32 flex justify-end items-center">
+      <section class="container">
+        <nav class="flex justify-end items-center">
           <a class="mr-auto" href={Routes.page_path(@conn, :index)}>
           <h1 class="text-4xl font-bold text-white flex items-center">
             <.logo class="h-12 mr-4" />
@@ -29,8 +29,24 @@
 
       </section>
     </header>
-    <.pattern />
+    
     <%= @inner_content %>
 
+
+    <footer class="bg-primary-900">
+        <section class="container py-16 grid grid-rows-3 gap-4 justify-center text-white">
+            <ul class="flex justify-center space-x-4">
+              <li>About</li>
+              <li>Jobs</li>
+              <li>Technology</li>
+            </ul>
+            <ul class="flex justify-center space-x-4">
+              <li><Svg.SocialIcons.facebook class="h-8" /></li>
+              <li><Svg.SocialIcons.twitter class="h-8" /></li>
+              <li><Svg.SocialIcons.github class="h-8" /></li>
+            </ul>
+            <p class="text-center">&copy;2020 Justin Morgan</p>
+        </section>
+    </footer>
   </body>
 </html>

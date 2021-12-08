@@ -40,7 +40,7 @@ defmodule TeamThinkWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: TeamThinkWeb.Telemetry
+      live_dashboard "/live_dashboard", metrics: TeamThinkWeb.Telemetry
     end
   end
 
@@ -78,7 +78,7 @@ defmodule TeamThinkWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
-    live "/test", TestLive
+    live "/dashboard", DashboardLive, :index
   end
 
   scope "/", TeamThinkWeb do

@@ -30,8 +30,12 @@ defmodule TeamThinkWeb.Components.Form do
 
     ~H"""
     <div class="flex flex-col">
-      <%= label @f, @field, label: @label %>
-      <%= render_slot(@inner_block, "py-3 px-4 border rounded-md shadow-sm min-w-[50ch]") %>
+      <%= if @label do %>
+        <%= label @f, @field, @label %>
+      <% else %>
+        <%= label @f, @field %>
+      <% end %>
+      <%= render_slot(@inner_block, "inputs") %>
       <div class="h-8">
         <%= error_tag @f, @field %>
       </div>
@@ -71,7 +75,7 @@ defmodule TeamThinkWeb.Components.Form do
   def submit_button(assigns) do
     ~H"""
     <div>
-      <%= submit @label, class: "button" %>
+      <%= submit @label, class: "button", phx_disable_with: "Saving..." %>
     </div>
     """
   end

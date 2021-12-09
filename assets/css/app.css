@@ -9,14 +9,24 @@
 /* LiveView specific classes for your customization */
 @import "./live-view.css";
 
+/* LiveView Modal specific classes for your customization */
+@import "./modal.css";
+
 @layer base {
     body {
         background: url("/images/pattern.svg")
     }
+    
 }
 
 @layer components {
     .button {
         @apply w-full py-3 px-4 border rounded-lg text-center font-bold hover:bg-accent-600 hover:text-white transition duration-200;
+    }
+    .inputs {
+        @apply py-3 px-4 border-gray-200 rounded-md shadow-sm min-w-[50ch];
+    }
+    .inputs:focus {
+        @apply ring-primary-500 border-transparent;
     }
 }

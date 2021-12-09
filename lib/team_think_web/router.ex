@@ -20,7 +20,6 @@ defmodule TeamThinkWeb.Router do
   scope "/", TeamThinkWeb do
     pipe_through :browser
 
-    get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -61,6 +60,8 @@ defmodule TeamThinkWeb.Router do
   scope "/", TeamThinkWeb do
     pipe_through [:browser, :redirect_if_user_is_authenticated]
 
+    get "/", PageController, :index
+
     get "/users/register", UserRegistrationController, :new
     post "/users/register", UserRegistrationController, :create
     get "/users/log_in", UserSessionController, :new
@@ -79,6 +80,13 @@ defmodule TeamThinkWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     live "/dashboard", DashboardLive, :index
+    live "/project/new", DashboardLive, :new
+
+    live "/projects", ProjectLive.Index, :index
+    live "/projects/:id/edit", ProjectLive.Index, :edit
+
+    live "/projects/:id", ProjectLive.Show, :show
+    live "/projects/:id/show/edit", ProjectLive.Show, :edit
   end
 
   scope "/", TeamThinkWeb do

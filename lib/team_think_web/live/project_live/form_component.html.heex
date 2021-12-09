@@ -1,0 +1,24 @@
+<div>
+<Form.form_container>
+  <h2 class="font-bold text-3xl pb-6"><%= @title %></h2>
+  <.form
+    let={f}
+    for={@changeset}
+    id="project-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <Form.form_field f={f} field={:name} label="Project Name" >
+      <%= text_input f, :name, class: "inputs" %>
+    </Form.form_field>
+  
+    <Form.form_field f={f} field={:description} label="Brief Description">
+      <%= textarea f, :description, class: "inputs h-64"  %>
+    </Form.form_field>
+    
+    <Form.submit_button label="Save" />
+      
+  </.form>
+</Form.form_container>
+</div>

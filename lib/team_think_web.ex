@@ -91,6 +91,7 @@ defmodule TeamThinkWeb do
 
       # Import LiveView and .heex helpers (live_render, live_patch, <.form>, etc)
       import Phoenix.LiveView.Helpers
+      import TeamThinkWeb.LiveHelpers
 
       # Import basic rendering functionality (render, render_layout, etc)
       import Phoenix.View
@@ -99,7 +100,7 @@ defmodule TeamThinkWeb do
       import TeamThinkWeb.Gettext
       alias TeamThinkWeb.Router.Helpers, as: Routes
 
-      alias TeamThinkWeb.Components.{Svg, Ui}
+      alias TeamThinkWeb.Components.{Form, Svg, Ui}
 
     end
   end

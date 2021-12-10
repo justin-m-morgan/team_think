@@ -22,4 +22,14 @@ defmodule TeamThinkWeb.ProjectLive.Show do
 
   defp page_title(:show), do: "Show Project"
   defp page_title(:edit), do: "Edit Project"
+
+  defp navigation_item(assigns) do
+    ~H"""
+    <div class="flex flex-col items-center space-y-4">
+      <%= render_slot(@inner_block) %>
+      <span class="font-bold text-2xl"><%= @label %></span>
+    </div>
+    """
+  end
+
 end

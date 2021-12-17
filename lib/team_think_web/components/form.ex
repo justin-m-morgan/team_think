@@ -7,12 +7,10 @@ defmodule TeamThinkWeb.Components.Form do
 
   def form_card(assigns) do
     ~H"""
-    <div class="flex flex-col items-center py-2 pt-12">
-      <div class="max-w-4xl py-12 px-8 shadow-xl rounded-xl bg-white">
-        <h1 class="text-3xl font-bold pb-4"><%= @title %></h1>
+    <div class="mx-auto w-full max-w-3xl py-12 px-8 shadow-xl rounded-xl bg-white">
+      <h1 class="text-3xl font-bold pb-4"><%= @title %></h1>
 
-        <%= render_slot(@inner_block) %>
-      </div>
+      <%= render_slot(@inner_block) %>
     </div>
     """
   end
@@ -35,9 +33,21 @@ defmodule TeamThinkWeb.Components.Form do
       <% else %>
         <%= label @f, @field %>
       <% end %>
-      <%= render_slot(@inner_block, "inputs") %>
+      <%= render_slot(@inner_block) %>
       <div class="h-8">
         <%= error_tag @f, @field %>
+      </div>
+    </div>
+    """
+  end
+
+  def text_area(assigns) do
+    ~H"""
+    <div class="flex flex-col">
+      <%= label @f, @field, @label %>
+      <%= text_input @f, @field, class: "inputs" %>
+      <div class="h-8">
+         <%= error_tag @f, @field %>
       </div>
     </div>
     """
@@ -74,8 +84,8 @@ defmodule TeamThinkWeb.Components.Form do
 
   def submit_button(assigns) do
     ~H"""
-    <div>
-      <%= submit @label, class: "button", phx_disable_with: "Saving..." %>
+    <div class="flex">
+      <%= submit @label, class: "button w-full py-4", phx_disable_with: "Saving..." %>
     </div>
     """
   end

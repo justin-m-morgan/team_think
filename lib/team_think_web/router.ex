@@ -80,13 +80,26 @@ defmodule TeamThinkWeb.Router do
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
     live "/dashboard", DashboardLive, :index
-    live "/project/new", DashboardLive, :new
 
     live "/projects", ProjectLive.Index, :index
-    live "/projects/:id/edit", ProjectLive.Index, :edit
+    live "/projects/new", ProjectLive.Index, :new
+    live "/projects/:project_id", ProjectLive.Show, :show
+    live "/projects/:project_id/show/edit", ProjectLive.Show, :edit
 
-    live "/projects/:id", ProjectLive.Show, :show
-    live "/projects/:id/show/edit", ProjectLive.Show, :edit
+    live "/projects/:project_id/task_lists", TaskListLive.Index, :index
+    live "/projects/:project_id/task_lists/new", TaskListLive.Index, :new
+    live "/projects/:project_id/task_lists/:list_id/edit", TaskListLive.Index, :edit
+    live "/projects/:project_id/task_lists/:list_id", TaskListLive.Show, :show
+    live "/projects/:project_id/task_lists/:list_id/show/edit", TaskListLive.Show, :edit
+
+    live "/projects/:project_id/task_lists/:list_id/tasks", TaskLive.Index, :index
+    live "/projects/:project_id/task_lists/:list_id/tasks/new", TaskLive.Index, :new
+    live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/edit", TaskLive.Index, :edit
+
+    live "/projects/:project_id/task_lists/:list_id/tasks/:task_id", TaskLive.Show, :show
+    live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/show/edit", TaskLive.Show, :edit
+
+
   end
 
   scope "/", TeamThinkWeb do

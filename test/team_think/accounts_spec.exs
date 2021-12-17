@@ -1,5 +1,5 @@
 defmodule TeamThink.AccountsTest do
-  use TeamThink.DataCase
+  use TeamThink.DataCase, async: true
 
   alias TeamThink.Accounts
 
@@ -13,13 +13,14 @@ defmodule TeamThink.AccountsTest do
 
   describe "get_user_by_email/1" do
     test "does not return the user if the email does not exist" do
-      random_email = valid_email_generator()
+      random_user = build(:valid_user)
 
-      refute Accounts.get_user_by_email(random_email)
+      refute Accounts.get_user_by_email(random_user.email)
     end
 
     test "returns the user if the email exists" do
       %{id: id} = user = insert(:valid_user)
+
       assert %User{id: ^id} = Accounts.get_user_by_email(user.email)
     end
   end
@@ -32,7 +33,7 @@ defmodule TeamThink.AccountsTest do
     end
 
     test "does not return the user if the password is not valid" do
-      random_password = password_generator()
+      random_password = build(:valid_user_params)[:password]
       user = build(:valid_user) |> Map.put(:password, random_password)
 
       refute Accounts.get_user_by_email_and_password(user.email, user.password)
@@ -72,7 +73,7 @@ defmodule TeamThink.AccountsTest do
     end
 
     test "validates email and password when given" do
-      user = build(:invalid_user) |> Map.from_struct()
+      user = build(:invalid_user_params)
 
       password_error =
         if String.length(user.password) < @min_password_length do
@@ -150,7 +151,12 @@ defmodule TeamThink.AccountsTest do
 
   describe "apply_user_email/3" do
     setup do
-      %{user: user_fixture()}
+      %{password: password} = user = build(:valid_user)
+
+      %{
+        user: insert(user),
+        password: password
+      }
     end
 
     test "requires email to change", %{user: user} do
@@ -158,41 +164,43 @@ defmodule TeamThink.AccountsTest do
       assert %{email: ["did not change"]} = errors_on(changeset)
     end
 
-    test "validates email", %{user: user} do
+    test "validates email", %{user: user, password: password} do
       {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: "not valid"})
+        Accounts.apply_user_email(user, password, %{email: "not valid"})
 
       assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
 
-    test "validates maximum value for email for security", %{user: user} do
+    test "validates maximum value for email for security", %{user: user, password: password} do
       too_long = String.duplicate("db", 100)
 
       {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: too_long})
+        Accounts.apply_user_email(user, password, %{email: too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
 
-    test "validates email uniqueness", %{user: user} do
-      %{email: email} = user_fixture()
+    test "validates email uniqueness", %{user: user, password: password} do
+      %{email: email} = insert(:valid_user)
 
       {:error, changeset} =
-        Accounts.apply_user_email(user, valid_user_password(), %{email: email})
+        Accounts.apply_user_email(user, password, %{email: email})
 
       assert "has already been taken" in errors_on(changeset).email
     end
 
     test "validates current password", %{user: user} do
+      existing_user = insert(:valid_user)
+
       {:error, changeset} =
-        Accounts.apply_user_email(user, "invalid", %{email: unique_user_email()})
+        Accounts.apply_user_email(user, "invalid", %{email: existing_user.email})
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
 
-    test "applies the email without persisting it", %{user: user} do
-      email = unique_user_email()
-      {:ok, user} = Accounts.apply_user_email(user, valid_user_password(), %{email: email})
+    test "applies the email without persisting it", %{user: user, password: password} do
+      %{email: email} = build(:valid_user)
+      {:ok, user} = Accounts.apply_user_email(user, password, %{email: email})
       assert user.email == email
       assert Accounts.get_user!(user.id).email != email
     end
@@ -200,11 +208,11 @@ defmodule TeamThink.AccountsTest do
 
   describe "deliver_update_email_instructions/3" do
     setup do
-      %{user: user_fixture()}
+      %{user: insert(:valid_user)}
     end
 
     test "sends token through notification", %{user: user} do
-      new_email = valid_email_generator()
+      new_email = build(:valid_user).email
 
       token =
         extract_user_token(fn url ->
@@ -221,8 +229,8 @@ defmodule TeamThink.AccountsTest do
 
   describe "update_user_email/2" do
     setup do
-      user = user_fixture()
-      email = unique_user_email()
+      user = insert(:valid_user)
+      %{email: email} = build(:valid_user)
 
       token =
         extract_user_token(fn url ->
@@ -282,12 +290,13 @@ defmodule TeamThink.AccountsTest do
 
   describe "update_user_password/3" do
     setup do
-      %{user: user_fixture()}
+      user = build(:valid_user)
+      %{user: insert(user), password: user.password}
     end
 
-    test "validates password", %{user: user} do
+    test "validates password", %{user: user, password: password} do
       {:error, changeset} =
-        Accounts.update_user_password(user, valid_user_password(), %{
+        Accounts.update_user_password(user, password, %{
           password: "not valid",
           password_confirmation: "another"
         })
@@ -314,21 +323,20 @@ defmodule TeamThink.AccountsTest do
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
 
-    test "updates the password", %{user: user} do
+    test "updates the password", %{user: user, password: password} do
       {:ok, user} =
-        Accounts.update_user_password(user, valid_user_password(), %{
+        Accounts.update_user_password(user, password, %{
           password: "new valid password"
         })
 
-      assert is_nil(user.password)
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end
 
-    test "deletes all tokens for the given user", %{user: user} do
+    test "deletes all tokens for the given user", %{user: user, password: password} do
       _ = Accounts.generate_user_session_token(user)
 
       {:ok, _} =
-        Accounts.update_user_password(user, valid_user_password(), %{
+        Accounts.update_user_password(user, password, %{
           password: "new valid password"
         })
 
@@ -338,19 +346,20 @@ defmodule TeamThink.AccountsTest do
 
   describe "generate_user_session_token/1" do
     setup do
-      %{user: user_fixture()}
+      %{user: insert(:valid_user)}
     end
 
     test "generates a token", %{user: user} do
       token = Accounts.generate_user_session_token(user)
       assert user_token = Repo.get_by(UserToken, token: token)
       assert user_token.context == "session"
+      second_user = insert(:valid_user)
 
       # Creating the same token for another user should fail
       assert_raise Ecto.ConstraintError, fn ->
         Repo.insert!(%UserToken{
           token: user_token.token,
-          user_id: user_fixture().id,
+          user_id: second_user.id,
           context: "session"
         })
       end
@@ -359,7 +368,7 @@ defmodule TeamThink.AccountsTest do
 
   describe "get_user_by_session_token/1" do
     setup do
-      user = user_fixture()
+      user = insert(:valid_user)
       token = Accounts.generate_user_session_token(user)
       %{user: user, token: token}
     end
@@ -381,7 +390,7 @@ defmodule TeamThink.AccountsTest do
 
   describe "delete_session_token/1" do
     test "deletes the token" do
-      user = user_fixture()
+      user = insert(:valid_user)
       token = Accounts.generate_user_session_token(user)
       assert Accounts.delete_session_token(token) == :ok
       refute Accounts.get_user_by_session_token(token)
@@ -390,7 +399,7 @@ defmodule TeamThink.AccountsTest do
 
   describe "deliver_user_confirmation_instructions/2" do
     setup do
-      %{user: user_fixture()}
+      %{user: insert(:valid_user)}
     end
 
     test "sends token through notification", %{user: user} do
@@ -409,7 +418,7 @@ defmodule TeamThink.AccountsTest do
 
   describe "confirm_user/1" do
     setup do
-      user = user_fixture()
+      user = insert(:valid_user)
 
       token =
         extract_user_token(fn url ->
@@ -443,7 +452,7 @@ defmodule TeamThink.AccountsTest do
 
   describe "deliver_user_reset_password_instructions/2" do
     setup do
-      %{user: user_fixture()}
+      %{user: insert(:valid_user)}
     end
 
     test "sends token through notification", %{user: user} do
@@ -462,7 +471,7 @@ defmodule TeamThink.AccountsTest do
 
   describe "get_user_by_reset_password_token/1" do
     setup do
-      user = user_fixture()
+      user = insert(:valid_user)
 
       token =
         extract_user_token(fn url ->
@@ -491,7 +500,7 @@ defmodule TeamThink.AccountsTest do
 
   describe "reset_user_password/2" do
     setup do
-      %{user: user_fixture()}
+      %{user: insert(:valid_user)}
     end
 
     test "validates password", %{user: user} do
@@ -514,8 +523,8 @@ defmodule TeamThink.AccountsTest do
     end
 
     test "updates the password", %{user: user} do
-      {:ok, updated_user} = Accounts.reset_user_password(user, %{password: "new valid password"})
-      assert is_nil(updated_user.password)
+      {:ok, _updated_user} = Accounts.reset_user_password(user, %{password: "new valid password"})
+
       assert Accounts.get_user_by_email_and_password(user.email, "new valid password")
     end
 

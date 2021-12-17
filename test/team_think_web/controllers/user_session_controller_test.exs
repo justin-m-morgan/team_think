@@ -3,6 +3,8 @@ defmodule TeamThinkWeb.UserSessionControllerTest do
 
   import TeamThink.AccountsFixtures
 
+  @logged_in_redirect_path "/dashboard"
+
   setup do
     %{user: user_fixture()}
   end
@@ -11,14 +13,14 @@ defmodule TeamThinkWeb.UserSessionControllerTest do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, Routes.user_session_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+
       assert response =~ "Register</a>"
       assert response =~ "Forgot your password?</a>"
     end
 
     test "redirects if already logged in", %{conn: conn, user: user} do
       conn = conn |> log_in_user(user) |> get(Routes.user_session_path(conn, :new))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == @logged_in_redirect_path
     end
   end
 
@@ -30,10 +32,10 @@ defmodule TeamThinkWeb.UserSessionControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == @logged_in_redirect_path
 
       # Now do a logged in request and assert on the menu
-      conn = get(conn, "/")
+      conn = get(conn, @logged_in_redirect_path)
       response = html_response(conn, 200)
       assert response =~ user.email
       assert response =~ "Settings</a>"
@@ -51,7 +53,7 @@ defmodule TeamThinkWeb.UserSessionControllerTest do
         })
 
       assert conn.resp_cookies["_team_think_web_user_remember_me"]
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == @logged_in_redirect_path
     end
 
     test "logs the user in with return to", %{conn: conn, user: user} do
@@ -75,7 +77,7 @@ defmodule TeamThinkWeb.UserSessionControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+
       assert response =~ "Invalid email or password"
     end
   end

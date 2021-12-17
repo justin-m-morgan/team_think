@@ -3,18 +3,20 @@ defmodule TeamThinkWeb.UserRegistrationControllerTest do
 
   import TeamThink.AccountsFixtures
 
+  @logged_in_redirect_path "/dashboard"
+
   describe "GET /users/register" do
     test "renders registration page", %{conn: conn} do
       conn = get(conn, Routes.user_registration_path(conn, :new))
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
+      assert response =~ "Register</h1>"
       assert response =~ "Log in</a>"
       assert response =~ "Register</a>"
     end
 
     test "redirects if already logged in", %{conn: conn} do
       conn = conn |> log_in_user(user_fixture()) |> get(Routes.user_registration_path(conn, :new))
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == @logged_in_redirect_path
     end
   end
 
@@ -29,10 +31,10 @@ defmodule TeamThinkWeb.UserRegistrationControllerTest do
         })
 
       assert get_session(conn, :user_token)
-      assert redirected_to(conn) == "/"
+      assert redirected_to(conn) == @logged_in_redirect_path
 
       # Now do a logged in request and assert on the menu
-      conn = get(conn, "/")
+      conn = get(conn, @logged_in_redirect_path)
       response = html_response(conn, 200)
       assert response =~ email
       assert response =~ "Settings</a>"
@@ -46,7 +48,7 @@ defmodule TeamThinkWeb.UserRegistrationControllerTest do
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Register</h1>"
+      assert response =~ "Register</h1>"
       assert response =~ "must have the @ sign and no spaces"
       assert response =~ "should be at least 12 character"
     end

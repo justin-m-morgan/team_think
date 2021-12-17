@@ -20,4 +20,28 @@ defmodule TeamThinkWeb.LiveHelpers do
     modal_opts = [id: :modal, return_to: path, component: component, opts: opts]
     live_component(TeamThinkWeb.ModalComponent, modal_opts)
   end
+
+
+  @doc """
+  Allows for a list of CSS-classes to be provided in tuple form or binary.
+
+  Tuples are of the form {css-class, boolean}.
+
+  ## Examples
+
+      iex> class_list(["big", {"small", false}, {"maybe", Integer.mod(10, 2) == 0}])
+      "big maybe"
+
+  """
+  def class_list(items) do
+    items
+    |> Enum.map(&process_classes/1)
+    |> Enum.reject(&(&1 == false))
+    |> Enum.join(" ")
+  end
+
+  defp process_classes(item) when is_binary(item), do: item
+  defp process_classes({_class, false}), do: false
+  defp process_classes({class, _}), do: class
+  defp process_classes(_), do: false
 end

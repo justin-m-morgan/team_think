@@ -8,14 +8,14 @@
     phx-target={@myself}
     phx-change="validate"
     phx-submit="save">
+
+    <%= hidden_input f, :user_id %>
   
     <Form.form_field f={f} field={:name} label="Project Name" >
       <%= text_input f, :name, class: "inputs" %>
     </Form.form_field>
   
-    <Form.form_field f={f} field={:description} label="Brief Description">
-      <%= textarea f, :description, class: "inputs h-64"  %>
-    </Form.form_field>
+    <Form.text_area f={f} field={:description} label="Brief Description" />
     
     <Form.submit_button label="Save" />
       

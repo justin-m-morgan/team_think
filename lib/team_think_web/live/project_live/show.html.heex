@@ -3,43 +3,19 @@
     id: @project.id,
     title: @page_title,
     action: @live_action,
+    user: @user,
     project: @project,
     return_to: Routes.project_show_path(@socket, :show, @project) %>
 <% end %>
 
-<Ui.card>
+<ResourceShow.show 
+  resource_name="project"
+  resource={@project}
+  edit_path={Routes.project_show_path(@socket, :edit, @project)}
+  navigation_items={@navigation_items}
+>
+  <:heading><%= @project.name %></:heading>
+  <:description><%= @project.description %></:description>
 
-  <div class="grid lg:grid-cols-3 items-center">
-    <div class="flex flex-col items-center">
-      <h2 class="font-bold text-3xl lg:text-5xl"><%= @project.name %></h2>
-      
-      <p class="max-w-xl pt-2 pb-8">
-        <%= @project.description %>
-      </p>
-      <%= live_patch to: Routes.project_show_path(@socket, :edit, @project) do %>
-        <Svg.edit class="h-6" />
-      <% end %>
-    </div>
-
-     <div class="lg:col-span-2 grid lg:grid-cols-3 gap-12">
-      <.navigation_item label="Team">
-        <Svg.Illustrations.team class="h-32" />
-      </.navigation_item>
-      <.navigation_item label="Tasks">
-        <Svg.Illustrations.next_tasks class="h-32" />
-      </.navigation_item>
-      <.navigation_item label="Conversation">
-        <Svg.Illustrations.respond class="h-32" />
-      </.navigation_item>
-    </div>
-  </div>
-  
-  
-
- 
-
-</Ui.card>
-
-
-
+</ResourceShow.show>
 

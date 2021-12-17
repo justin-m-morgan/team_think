@@ -1,0 +1,26 @@
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal TeamThinkWeb.ProjectLive.FormComponent,
+    id: @project.id || :new,
+    title: @page_title,
+    action: @live_action,
+    user: @user,
+    project: @project,
+    return_to: Routes.project_index_path(@socket, :index) %>
+<% end %>
+
+<ResourceIndex.template
+  resource={nil}
+  resource_name="project"
+  title="Projects"
+  new_path={Routes.project_index_path(@socket, :new)}
+  new_label="Create Project"
+  resource_list={@projects}
+>
+  <:resource_heading let={project}><%= project.name %></:resource_heading>
+  <:resource_summary let={project}><%= project.description %></:resource_summary>
+  <:show_link let={project}><%= Routes.project_show_path(@socket, :show,  project) %></:show_link>
+  <:edit_link let={project}><%= Routes.project_show_path(@socket, :edit, project) %></:edit_link>
+  <:delete_link let={project}><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: project.id, data: [confirm: "Are you sure?"] %></:delete_link>
+</ResourceIndex.template>
+
+

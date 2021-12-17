@@ -6,15 +6,18 @@ defmodule TeamThink.Projects.Project do
   import Ecto.Changeset
 
   alias TeamThink.Accounts.User
+  alias TeamThink.TaskLists.TaskList
 
   schema "projects" do
     field :description, :string
     field :name, :string
 
     belongs_to :user, User
+    has_many :task_lists, TaskList
 
     timestamps()
   end
+
 
   @doc false
   def changeset(project, attrs) do

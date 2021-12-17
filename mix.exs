@@ -10,7 +10,8 @@ defmodule TeamThink.MixProject do
       compilers: [:gettext] ++ Mix.compilers(),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_pattern: "*_{spec,test}.exs"
     ]
   end
 
@@ -26,6 +27,7 @@ defmodule TeamThink.MixProject do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(:dev), do: ["lib", "test/support"]
   defp elixirc_paths(_), do: ["lib"]
 
   # Specifies your project dependencies.
@@ -42,6 +44,7 @@ defmodule TeamThink.MixProject do
       {:phoenix_live_reload, "~> 1.2", only: :dev},
       {:phoenix_live_view, "~> 0.17.5"},
       {:floki, ">= 0.30.0", only: :test},
+      {:html5ever, "~> 0.9.0", only: :test},
       {:phoenix_live_dashboard, "~> 0.5"},
       {:esbuild, "~> 0.2", runtime: Mix.env() == :dev},
       {:swoosh, "~> 1.3"},
@@ -51,11 +54,13 @@ defmodule TeamThink.MixProject do
       {:gettext, "~> 0.18"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:ex_machina, "~> 2.7.0", only: :test},
+      {:ex_machina, "~> 2.7.0", only: [:test, :dev]},
       {:faker, only: [:dev, :test], git: "https://github.com/elixirs/faker.git"},
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:mjml, "~> 1.1"},
-      {:hackney, "~> 1.18"}
+      {:hackney, "~> 1.18"},
+      {:stream_data, "~> 0.5.0", only: :test},
+      {:wallaby, "~> 0.29.0", runtime: false, only: :test},
     ]
   end
 

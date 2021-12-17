@@ -1,0 +1,26 @@
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal TeamThinkWeb.TaskLive.FormComponent,
+    id: @task.id || :new,
+    title: @page_title,
+    action: @live_action,
+    task: @task,
+    task_list_id: @task_list_id,
+    return_to: Routes.task_index_path(@socket, :index, @project_id, @task_list_id) %>
+<% end %>
+
+<ResourceIndex.template 
+  resource={@task_list}
+  resource_name="task"
+  title="Tasks"
+  new_path={Routes.task_index_path(@socket, :new, @project_id, @task_list_id)}
+  new_label="Add Task"
+  resource_list={@tasks}
+>
+  <:resource_heading let={task}><%= task.name %></:resource_heading>
+  <:resource_summary let={task}><%= task.description %></:resource_summary>
+  <:show_link let={task}><%= Routes.task_show_path(@socket, :show, @project_id, @task_list_id, task.id) %></:show_link>
+  <:edit_link let={task}><%= Routes.task_show_path(@socket, :edit, @project_id, @task_list_id, task.id) %></:edit_link>
+  <:delete_link let={task}><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: task.id, data: [confirm: "Are you sure?"] %></:delete_link>
+</ResourceIndex.template>
+
+

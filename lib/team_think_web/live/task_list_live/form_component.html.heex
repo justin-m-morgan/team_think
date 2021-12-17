@@ -1,0 +1,26 @@
+<div>
+<Form.form_container>
+  <h2 class="font-bold text-3xl pb-6"><%= @title %></h2>
+  <.form
+    let={f}
+    for={@changeset}
+    id="task_list-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+
+    <%= hidden_input f, :project_id %>
+  
+    <Form.form_field f={f} field={:name} label="List name" >
+      <%= text_input f, :name, class: "inputs" %>
+    </Form.form_field>
+  
+    <Form.text_area f={f} field={:description} label="Description" />
+
+    
+    <Form.submit_button label="Save" />
+      
+  </.form>
+</Form.form_container>
+</div>
+

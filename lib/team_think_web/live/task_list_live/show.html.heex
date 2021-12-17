@@ -1,0 +1,20 @@
+<%= if @live_action in [:edit] do %>
+  <%= live_modal TeamThinkWeb.TaskListLive.FormComponent,
+    id: @task_list.id,
+    title: @page_title,
+    action: @live_action,
+    task_list: @task_list,
+    return_to: Routes.task_list_show_path(@socket, :show, @project_id, @task_list) %>
+<% end %>
+
+<ResourceShow.show 
+  resource_name="task_list"
+  resource={@task_list}
+  edit_path={Routes.task_list_show_path(@socket, :edit, @project_id, @task_list)}
+  navigation_items={@navigation_items}
+>
+  <:heading><%= @task_list.name %></:heading>
+  <:description><%= @task_list.description %></:description>
+
+</ResourceShow.show>
+

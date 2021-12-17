@@ -51,4 +51,8 @@ defmodule TeamThinkWeb.Endpoint do
   plug Plug.Head
   plug Plug.Session, @session_options
   plug TeamThinkWeb.Router
+
+  if sandbox = Application.get_env(:team_think, :sandbox) do
+    plug Phoenix.Ecto.SQL.Sandbox, sandbox: sandbox
+  end
 end

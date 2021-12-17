@@ -8,35 +8,15 @@ defmodule TeamThink.Factory.UserFactory do
       @min_password_length 12
       @max_password_length 72
 
-      def valid_user_factory do
-        password = password_generator()
-
-        %User{
-          email: Faker.Internet.email(),
-          password: password,
-          hashed_password: Bcrypt.hash_pwd_salt(password)
-        }
-      end
-
-      def invalid_user_factory do
-        password = invalid_password_generator()
-
-        %User{
-          email: invalid_email_generator(),
-          password: password,
-          hashed_password: Bcrypt.hash_pwd_salt(password)
-        }
-      end
-
-      def valid_email_generator() do
+      def valid_email_factory() do
         Faker.Internet.email()
       end
 
-      def invalid_email_generator() do
+      def invalid_email_factory() do
         Faker.Lorem.words() |> Enum.join()
       end
 
-      def password_generator(
+      def password_factory(
             min_length \\ @min_password_length,
             max_length \\ @max_password_length
           ) do
@@ -44,12 +24,37 @@ defmodule TeamThink.Factory.UserFactory do
         |> Faker.random_bytes()
       end
 
-      def invalid_password_generator() do
+      def invalid_password_factory() do
         [
-          password_generator(1, @min_password_length - 1),
-          password_generator(@max_password_length + 1, 256)
+          password_factory(1, @min_password_length - 1),
+          password_factory(@max_password_length + 1, 256)
         ]
         |> Enum.random()
+      end
+
+      def valid_user_params_factory() do
+        %{
+          email: valid_user_factory(),
+          password: "passwordpassword"
+        }
+      end
+
+      def valid_user_factory do
+        %User{
+          email: Faker.Internet.email(),
+          password: "passwordpassword",
+          hashed_password: Bcrypt.hash_pwd_salt("passwordpassword")
+        }
+      end
+
+      def invalid_user_params_factory do
+        password = invalid_password_factory()
+
+        %{
+          email: invalid_email_factory(),
+          password: password,
+          hashed_password: Bcrypt.hash_pwd_salt(password)
+        }
       end
     end
   end

@@ -6,6 +6,6 @@ defmodule TeamThink.Factory do
 
   use TeamThink.Factory.UserFactory
   use TeamThink.Factory.ProjectFactory
-
-
+  use TeamThink.Factory.TaskFactory
+  use TeamThink.Factory.TaskListFactory
 end

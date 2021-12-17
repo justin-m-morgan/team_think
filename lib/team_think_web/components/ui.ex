@@ -18,7 +18,7 @@ defmodule TeamThinkWeb.Components.Ui do
     """
   end
 
-  def card(assigns) do
+  def icon_card(assigns) do
     assigns =
       assigns
         |> assign_new(:heading, fn -> [] end)
@@ -26,7 +26,8 @@ defmodule TeamThinkWeb.Components.Ui do
         |> assign_new(:simple_text, fn -> [] end)
 
     ~H"""
-    <div class="bg-gray-50 py-8 px-6 shadow-lg flex flex-col items-center">
+
+    <div class="card py-8 px-6 flex flex-col items-center">
       <div class="pb-12">
         <%= render_slot(@icon) %>
       </div>
@@ -34,6 +35,7 @@ defmodule TeamThinkWeb.Components.Ui do
       <p class="text-xl text-thin text-center leading-relaxed"><%= render_slot(@simple_text) %></p>
       <%= render_slot(@inner_block) %>
     </div>
+
     """
   end
 end

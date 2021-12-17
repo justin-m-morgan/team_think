@@ -56,31 +56,16 @@ defmodule TeamThinkWeb.DashboardLive do
 
   def render(assigns) do
     ~H"""
-    <%= if @live_action in [:new, :edit] do %>
-      <%= live_modal TeamThinkWeb.ProjectLive.FormComponent,
-        id: @project.id || :new,
-        title: @page_title,
-        action: @live_action,
-        project: @project,
-        user: @user,
-        return_to: Routes.dashboard_path(TeamThinkWeb.Endpoint, :index) %>
-    <% end %>
-
     <section class="grid 2xl:grid-cols-2 gap-8 py-12">
       <.projects_listing socket={@socket} heading="Your Projects" projects={@projects.mine}>
         <:icon>
-          <Svg.Illustrations.working_late class="h-64" />
+          <Svg.Illustrations.illustration illustration_name="working_late" class="h-64" />
         </:icon>
-        <%= live_patch to: Routes.dashboard_path(TeamThinkWeb.Endpoint, :new) do %>
-          <Ui.button>
-            Create Project
-          </Ui.button>
-        <% end %>
       </.projects_listing>
 
       <.projects_listing socket={@socket} heading="Team's Projects" projects={@projects.others}>
         <:icon>
-          <Svg.Illustrations.working_late class="h-64" />
+          <Svg.Illustrations.illustration illustration_name="working_late" class="h-64" />
         </:icon>
 
       </.projects_listing>
@@ -91,7 +76,7 @@ defmodule TeamThinkWeb.DashboardLive do
 
   defp projects_listing(assigns) do
     ~H"""
-    <Ui.card>
+    <Ui.icon_card>
       <:icon>
         <%= render_slot(@icon) %>
       </:icon>
@@ -107,7 +92,7 @@ defmodule TeamThinkWeb.DashboardLive do
       </ul>
 
       <%= render_slot(@inner_block) %>
-    </Ui.card>
+    </Ui.icon_card>
     """
   end
 
@@ -142,7 +127,7 @@ defmodule TeamThinkWeb.DashboardLive do
     |> assign(:project, %Project{})
   end
 
-  def handle_event("delete", %{"id" => id}, socket) do
+  def handle_event("delete", %{"project_id" => id}, socket) do
     project = Projects.get_project!(id)
     {:ok, _} = Projects.delete_project(project)
 

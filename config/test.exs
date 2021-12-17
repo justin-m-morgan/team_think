@@ -31,3 +31,19 @@ config :logger, level: :warn
 
 # Initialize plugs at runtime for faster test compilation
 config :phoenix, :plug_init_mode, :runtime
+
+# Setup Floki alternative HTML parser (Rust NIF)
+config :floki, :html_parser, Floki.HTMLParser.Html5ever
+
+
+# Setup instructions per Wallaby docs
+
+config :wallaby,
+  driver: Wallaby.Chrome,
+  otp_app: :team_think
+
+config :team_think, TeamThinkWeb.Endpoint,
+  server: true
+
+config :team_think, :sandbox,
+  Ecto.Adapters.SQL.Sandbox

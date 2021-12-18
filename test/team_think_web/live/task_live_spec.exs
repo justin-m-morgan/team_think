@@ -84,28 +84,23 @@ defmodule TeamThinkWeb.TaskLiveTest do
         |> then(fn html -> refute html =~ ~s/id="task-#{task.id}"/ end)
       end
 
-      # TODO: Diagnose why breadcrumb component makes test crash
-      #
-      # test "should be able to create a new task in a modal",
-      #   %{conn: conn, project: project, task_list: task_list} do
+      test "should be able to create a new task in a modal",
+        %{conn: conn, project: project, task_list: task_list} do
 
-      #   new_params = Factory.build(:task_params) |> Map.delete(:task_list_id) |> Map.delete(:status)
+        new_params = Factory.build(:task_params) |> Map.delete(:task_list_id) |> Map.delete(:status)
 
-      #   {:ok, index_live, _html} = live(conn, Routes.task_index_path(conn, :index, project, task_list))
+        {:ok, index_live, _html} = live(conn, Routes.task_index_path(conn, :new, project, task_list))
 
-      #   assert index_live
-      #     |> element("a", "Add")
-      #     |> render_click()
-      #     |> then(fn _ -> index_live end)
-      #     |> form("#task-form", task: new_params)
-      #     |> render_submit(%{"task_list_id" => task_list.id, "status" => "outstanding"})
-      #     |> follow_redirect(conn, Routes.task_index_path(conn, :index, project, task_list))
-      #     |> then(fn {:ok, _view, html} -> html end)
-      #     |> then(fn html ->
-      #       assert html =~ new_params.name
-      #       assert html =~ new_params.description
-      #     end)
-      # end
+        assert index_live
+          |> form("#task-form", task: new_params)
+          |> render_submit(%{"task_list_id" => task_list.id, "status" => "outstanding"})
+          |> follow_redirect(conn, Routes.task_index_path(conn, :index, project, task_list))
+          |> then(fn {:ok, _view, html} -> html end)
+          |> then(fn html ->
+            assert html =~ new_params.name
+            assert html =~ new_params.description
+          end)
+      end
   end
 
 

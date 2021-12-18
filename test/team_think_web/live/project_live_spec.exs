@@ -74,25 +74,21 @@ defmodule TeamThinkWeb.ProjectLiveTest do
         |> then(fn html -> refute html =~ ~s/id="project-#{project.id}"/ end)
       end
 
-      # TODO: Diagnose why breadcrumb component makes test crash
-      #
-      # test "should be able to create a new project in a modal", %{conn: conn, user: user} do
-      #   new_params = Factory.build(:project_params) |> Map.delete(:user_id)
-      #   {:ok, index_live, _html} = live(conn, Routes.project_index_path(conn, :index))
+      test "should be able to create a new project in a modal", %{conn: conn, user: user} do
+        new_params = Factory.build(:project_params) |> Map.delete(:user_id)
+        {:ok, index_live, _html} = live(conn, Routes.project_index_path(conn, :new))
 
-      #   assert index_live
-      #     |> element("a", "Create")
-      #     |> render_click()
-      #     |> then(fn _ -> index_live end)
-      #     |> form("#project-form", project: new_params)
-      #     |> render_submit(%{"user_id" => user.id})
-      #     |> follow_redirect(conn, Routes.project_index_path(conn, :index))
-      #     |> then(fn {:ok, _view, html} -> html end)
-      #     |> then(fn html ->
-      #       assert html =~ new_params.name
-      #       assert html =~ new_params.description
-      #     end)
-      # end
+        assert index_live
+          |> form("#project-form", project: new_params)
+          |> render_submit(%{"user_id" => user.id})
+          |> follow_redirect(conn, Routes.project_index_path(conn, :index))
+          |> then(fn {:ok, _view, html} -> html end)
+          |> then(fn html ->
+            assert html =~ new_params.name
+            assert html =~ new_params.description
+          end)
+      end
+
   end
 
   describe "Show LiveView" do

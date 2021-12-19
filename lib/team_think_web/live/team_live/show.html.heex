@@ -1,0 +1,23 @@
+<.live_component module={Breadcrumbs} id="breadcrumbs" resource={@project} />
+
+<div class="grid md:grid-cols-2 gap-8 items-start pb-12">
+<.live_component id="team-member-form" module={FormComponent} team={@team} />
+    
+<Ui.Table.table rows={@team.team_mates}>
+    <:col let={team_mate} label="Email">
+    <%= team_mate.email %>
+    </:col>  
+    <:col let={team_mate} alignment={:right} label="Remove?">
+        <div class="flex justify-end">
+        <%= if @project.user_id == team_mate.id do %>
+            <span>Team Lead</span>
+        <% else %>
+            <%= link to: "#", phx_click: "remove_team_mate", phx_value_id: team_mate.id, data: [confirm: "Are you sure?"] do %>
+                <Svg.trash class="h-6 hover:text-accent-300"/>
+            <% end %>
+        <% end %>
+        </div>
+    </:col>
+</Ui.Table.table>
+</div>
+

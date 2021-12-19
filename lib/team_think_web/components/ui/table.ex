@@ -28,7 +28,7 @@ defmodule TeamThinkWeb.Components.Ui.Table do
             <thead class="bg-gray-50">
               <tr>
                 <%= for col <- @col do %>
-                  <.header_cell><%= col.label %></.header_cell>
+                  <.header_cell alignment={col[:alignment]}><%= col.label %></.header_cell>
                 <% end %>
               </tr>
             </thead>
@@ -53,10 +53,12 @@ defmodule TeamThinkWeb.Components.Ui.Table do
   end
 
   defp header_cell(assigns) do
+    assigns = assign_new(assigns, :alignment, fn -> :left end)
+
     ~H"""
     <th
       scope="col"
-      class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+      class={"px-6 py-3 #{alignment(@alignment)} text-xs font-medium text-gray-500 uppercase tracking-wider"}
     >
       <%= render_block(@inner_block) %>
     </th>
@@ -70,4 +72,9 @@ defmodule TeamThinkWeb.Components.Ui.Table do
     </td>
     """
   end
+
+  defp alignment(:left), do: "text-left"
+  defp alignment(:right), do: "text-right"
+  defp alignment(:center), do: "text-center"
+  defp alignment(_), do: "text-left"
 end

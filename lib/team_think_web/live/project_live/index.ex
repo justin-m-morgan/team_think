@@ -4,34 +4,54 @@ defmodule TeamThinkWeb.ProjectLive.Index do
   """
 
   use TeamThinkWeb, :live_view
+  on_mount TeamThinkWeb.UserLiveAuth
 
-  import TeamThink.Accounts, only: [get_user_by_session_token: 1]
-
+  alias TeamThink.Accounts
   alias TeamThink.Projects
   alias TeamThink.Projects.Project
   alias TeamThinkWeb.Components.ResourceIndex
 
   @impl true
-  def mount(_params, session, socket) do
+  def mount(_params, _session, socket) do
     {
       :ok,
       socket
-      |> assign_current_user(session)
       |> assign_projects()
+      |> group_projects()
     }
   end
 
-  defp assign_current_user(socket, session) do
-    assign(socket,
-      user: get_user_by_session_token(session["user_token"]),
-      session_id: session["live_socket_id"]
-    )
+  defp assign_projects(socket) do
+    %{teams: teams} = Accounts.get_user!(socket.assigns.user.id, preload: [teams: [:project]])
+
+    socket
+    |> assign(:teams, teams)
+    |> assign(:projects, Enum.map(teams, &(&1.project)))
   end
 
-  defp assign_projects(socket) do
-    socket
-    |> assign(:projects, list_projects(socket.assigns.user))
+  defp group_projects(socket) do
+    %{projects: projects, user: user} = socket.assigns
+
+    projects
+    |> Enum.reduce({[], []}, fn project, {mine, others} ->
+      case project.user_id == user.id do
+        true -> {[project | mine], others}
+        false -> {mine, [project | others]}
+      end
+    end)
+    |> then(fn {mine, others} ->
+      socket
+      |> assign(:mine, mine)
+      |> assign(:others, others)
+    end)
   end
+
+  # defp sort_projects_by(projects, sort_key \\ :inserted_at) do
+  #   projects
+  #   |> Enum.map(&Map.from_struct/1)
+  #   |> Enum.sort_by(&(&1[sort_key]))
+  # end
+
 
   @impl true
   def handle_params(params, _url, socket) do

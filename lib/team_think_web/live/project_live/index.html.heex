@@ -11,10 +11,10 @@
 <ResourceIndex.template
   resource={nil}
   resource_name="project"
-  title="Projects"
+  title="My Projects"
   new_path={Routes.project_index_path(@socket, :new)}
   new_label="Create Project"
-  resource_list={@projects}
+  resource_list={@mine}
 >
   <:resource_heading let={project}><%= project.name %></:resource_heading>
   <:resource_summary let={project}><%= project.description %></:resource_summary>
@@ -22,5 +22,29 @@
   <:edit_link let={project}><%= Routes.project_show_path(@socket, :edit, project) %></:edit_link>
   <:delete_link let={project}><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: project.id, data: [confirm: "Are you sure?"] %></:delete_link>
 </ResourceIndex.template>
+<div class="card px-8 pb-12">
+  <h1 class="mx-auto font-bold text-4xl text-center py-4">
+    Your Team's Projects
+  </h1>
+  <div data-test="teams-projects-container" class="grid lg:grid-cols-3 gap-8 ">
+  <%= for project <- @others do %>
+  <div class="flex flex-col border px-4 py-8 text-center bg-white rounded-md">
+    <h2 class=" font-bold text-lg py-3">
+      <%= project.name %>
+    </h2>
+    <p>
+      <%= project.description %>
+    </p>
+    <div class="mt-auto flex justify-center space-x-3 pt-8">
+    <%= live_redirect to: Routes.project_show_path(@socket, :show,  project) do %>
+    <ResourceIndex.action_button>
+        <Svg.eye class="h-4" />
+        <span>Show</span>
+    </ResourceIndex.action_button>
+      <% end %>
+      </div>
+  </div>
 
-
+  <% end %>
+</div>
+</div>

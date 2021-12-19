@@ -4,6 +4,7 @@ defmodule TeamThinkWeb.ProjectLive.FormComponent do
   require Logger
 
   alias TeamThink.Projects
+  alias TeamThink.Teams
 
   @impl true
   def update(%{project: project} = assigns, socket) do
@@ -45,15 +46,18 @@ defmodule TeamThinkWeb.ProjectLive.FormComponent do
   end
 
   defp save_project(socket, :new, project_params) do
-    project_params = Map.put(project_params, "user_id", socket.assigns.user.id)
+    current_user = socket.assigns.user
+    project_params = Map.put(project_params, "user_id", current_user.id)
 
-    case Projects.create_project(project_params) do
-      {:ok, _project} ->
-        {:noreply,
-         socket
-         |> put_flash(:info, "Project created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
-
+    with {:ok, project} <- Projects.create_project(project_params),
+         {:ok, team} <- Teams.create_team(%{project_id: project.id}),
+         {:ok, _team} <- Teams.add_team_member(team, current_user)
+         do
+      {:noreply,
+       socket
+       |> put_flash(:info, "Project created successfully")
+       |> push_redirect(to: socket.assigns.return_to)}
+    else
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end

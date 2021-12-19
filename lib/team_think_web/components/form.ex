@@ -83,9 +83,14 @@ defmodule TeamThinkWeb.Components.Form do
   end
 
   def submit_button(assigns) do
+    assigns =
+      assigns
+      |> assign_new(:disabled, fn -> false end)
+      |> assign_new(:class, fn -> "" end)
+
     ~H"""
     <div class="flex">
-      <%= submit @label, class: "button w-full py-4", phx_disable_with: "Saving..." %>
+      <%= submit @label, disabled: @disabled, class: "button w-full py-4 " <> @class, phx_disable_with: "Saving..." %>
     </div>
     """
   end

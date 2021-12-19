@@ -66,7 +66,7 @@ defmodule TeamThinkWeb.Components.ResourceIndex do
     """
   end
 
-  defp action_button(assigns) do
+  def action_button(assigns) do
     ~H"""
     <span class="flex items-center space-x-2 bg-gray-800 hover:bg-accent-500 text-white py-1 px-4 rounded-full">
       <%= render_slot(@inner_block) %>

@@ -5,19 +5,10 @@ defmodule TeamThinkWeb.ProjectLive.Show do
 
   use TeamThinkWeb, :live_view
 
-  import TeamThink.Accounts, only: [get_user_by_session_token: 1]
-
   alias TeamThink.Projects
+  alias TeamThink.Teams
   alias TeamThinkWeb.Components.ResourceShow
 
-  @impl true
-  def mount(_params, session, socket) do
-    {
-      :ok,
-      socket
-      |> assign_current_user(session)
-    }
-  end
 
   @impl true
   def handle_params(%{"project_id" => id}, _, socket) do
@@ -27,25 +18,28 @@ defmodule TeamThinkWeb.ProjectLive.Show do
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:project, project)
-     |> assign(:navigation_items, navigation_item(socket, project.id))
+     |> assign_team(project)
+     |> assign_navigation_items(project)
   }
   end
 
-  defp assign_current_user(socket, session) do
-    assign(socket,
-      user: get_user_by_session_token(session["user_token"]),
-      session_id: session["live_socket_id"]
-    )
+
+  defp assign_team(socket, project) do
+    assign(socket, :team, Teams.get_team_by_project_id!(project.id))
+  end
+
+  defp assign_navigation_items(socket, project) do
+    assign(socket, :navigation_items, navigation_items(socket, project.id))
   end
 
   defp page_title(:show), do: "Show Project"
   defp page_title(:edit), do: "Edit Project"
 
-  defp navigation_item(socket, project_id) do
+  defp navigation_items(socket, project_id) do
     [
       %{
         illustration_name: "team",
-        to: Routes.dashboard_path(socket, :index),
+        to: Routes.team_show_path(socket, :show, project_id, socket.assigns.team),
         label: "Team"
       },
       %{

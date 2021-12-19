@@ -83,24 +83,30 @@ defmodule TeamThinkWeb.Router do
 
     live "/projects", ProjectLive.Index, :index
     live "/projects/new", ProjectLive.Index, :new
-    live "/projects/:project_id", ProjectLive.Show, :show
-    live "/projects/:project_id/show/edit", ProjectLive.Show, :edit
 
-    live "/projects/:project_id/task_lists", TaskListLive.Index, :index
-    live "/projects/:project_id/task_lists/new", TaskListLive.Index, :new
-    live "/projects/:project_id/task_lists/:list_id/edit", TaskListLive.Index, :edit
-    live "/projects/:project_id/task_lists/:list_id", TaskListLive.Show, :show
-    live "/projects/:project_id/task_lists/:list_id/show/edit", TaskListLive.Show, :edit
+    live_session :team_mates, on_mount: {TeamThinkWeb.UserLiveAuth, :team_members} do
+      live "/projects/:project_id", ProjectLive.Show, :show
+      live "/projects/:project_id/show/edit", ProjectLive.Show, :edit
 
-    live "/projects/:project_id/task_lists/:list_id/tasks", TaskLive.Index, :index
-    live "/projects/:project_id/task_lists/:list_id/tasks/new", TaskLive.Index, :new
-    live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/edit", TaskLive.Index, :edit
+      live "/projects/:project_id/team/:team_id", TeamLive.Show, :show
 
-    live "/projects/:project_id/task_lists/:list_id/tasks/:task_id", TaskLive.Show, :show
-    live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/show/edit", TaskLive.Show, :edit
+      live "/projects/:project_id/task_lists", TaskListLive.Index, :index
+      live "/projects/:project_id/task_lists/new", TaskListLive.Index, :new
+      live "/projects/:project_id/task_lists/:list_id/edit", TaskListLive.Index, :edit
+      live "/projects/:project_id/task_lists/:list_id", TaskListLive.Show, :show
+      live "/projects/:project_id/task_lists/:list_id/show/edit", TaskListLive.Show, :edit
 
+      live "/projects/:project_id/task_lists/:list_id/tasks", TaskLive.Index, :index
+      live "/projects/:project_id/task_lists/:list_id/tasks/new", TaskLive.Index, :new
+      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/edit", TaskLive.Index, :edit
 
+      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id", TaskLive.Show, :show
+      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/show/edit", TaskLive.Show, :edit
+    end
   end
+
+
+
 
   scope "/", TeamThinkWeb do
     pipe_through [:browser]

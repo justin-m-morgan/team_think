@@ -7,6 +7,7 @@ defmodule TeamThink.Projects.Project do
 
   alias TeamThink.Accounts.User
   alias TeamThink.TaskLists.TaskList
+  alias TeamThink.Teams.Team
 
   schema "projects" do
     field :description, :string
@@ -14,6 +15,7 @@ defmodule TeamThink.Projects.Project do
 
     belongs_to :user, User
     has_many :task_lists, TaskList
+    has_one :team, Team
 
     timestamps()
   end

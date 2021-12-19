@@ -8,11 +8,15 @@ defmodule TeamThink.Accounts.User do
   use Ecto.Schema
   import Ecto.Changeset
 
+  alias TeamThink.Teams.Team
+
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true, redact: true
     field :hashed_password, :string, redact: true
     field :confirmed_at, :naive_datetime
+
+    many_to_many :teams, Team, join_through: "team_mates"
 
     timestamps()
   end

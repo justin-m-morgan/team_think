@@ -6,7 +6,7 @@ defmodule TeamThink.Repo.Migrations.CreateTasks do
       add :name, :string
       add :description, :string
       add :status, :string
-      add :task_list_id, references(:task_lists, on_delete: :nothing)
+      add :task_list_id, references(:task_lists, on_delete: :delete_all)
 
       timestamps()
     end

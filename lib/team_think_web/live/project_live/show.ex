@@ -49,7 +49,7 @@ defmodule TeamThinkWeb.ProjectLive.Show do
       },
       %{
         illustration_name: "respond",
-        to: Routes.dashboard_path(socket, :index),
+        to: Routes.project_index_path(socket, :index),
         label: "Conversation"
       }
     ]

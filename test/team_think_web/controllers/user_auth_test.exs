@@ -6,7 +6,7 @@ defmodule TeamThinkWeb.UserAuthTest do
   import TeamThink.AccountsFixtures
 
   @remember_me_cookie "_team_think_web_user_remember_me"
-  @logged_in_redirect_path "/dashboard"
+  @logged_in_redirect_path "/projects"
 
   setup %{conn: conn} do
     conn =

@@ -3,7 +3,7 @@ defmodule TeamThinkWeb.UserSessionControllerTest do
 
   import TeamThink.AccountsFixtures
 
-  @logged_in_redirect_path "/dashboard"
+  @logged_in_redirect_path "/projects"
 
   setup do
     %{user: user_fixture()}

@@ -53,16 +53,9 @@ defmodule TeamThinkWeb.Components.Ui.Breadcrumbs do
     ~H"""
     <div class="flex justify-start py-4 font-bold">
       <div class="flex items-center space-x-4 grow-0 bg-gray-50 shadow rounded-lg py-4 px-4">
-        <%= live_redirect to: Routes.dashboard_path(@socket, :index) do %>
+        <%= live_redirect to: Routes.project_index_path(@socket, :index) do %>
           <Svg.home class="h-8"/>
         <% end %>
-
-
-        <.separator />
-
-        <.link to={Routes.project_index_path(@socket, :index)}>
-          Projects
-        </.link>
 
 
         <%= if @project do %>

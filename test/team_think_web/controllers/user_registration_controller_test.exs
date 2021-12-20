@@ -3,7 +3,7 @@ defmodule TeamThinkWeb.UserRegistrationControllerTest do
 
   import TeamThink.AccountsFixtures
 
-  @logged_in_redirect_path "/dashboard"
+  @logged_in_redirect_path "/projects"
 
   describe "GET /users/register" do
     test "renders registration page", %{conn: conn} do

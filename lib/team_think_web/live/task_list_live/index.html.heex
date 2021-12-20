@@ -16,8 +16,9 @@
   resource_list={@task_lists}
   show_link={fn task_list -> Routes.task_list_show_path(@socket, :show, @project, task_list) end}
   edit_link={fn task_list -> Routes.task_list_show_path(@socket, :edit, @project, task_list) end}
+  delete={true}
 >
-  <:svg><Svg.Illustrations.illustration illustration_name="working_late" class="h-8" /></:svg>
+  <:svg><Svg.Illustrations.illustration illustration_name="working_late" class="h-full" /></:svg>
   <:resource_heading let={task_list}><%= task_list.name %></:resource_heading>
   <:resource_summary let={task_list}><%= task_list.description %></:resource_summary>
 </ResourceIndex.template>

@@ -97,7 +97,7 @@ defmodule TeamThinkWeb.Components.Form do
 
   def bottom_links(assigns) do
     ~H"""
-    <div class="py-4 flex items-center space-x-4">
+    <div class="py-4 grid md:grid-cols-2 gap-4">
       <%= render_slot(@inner_block, "button") %>
     </div>
     """

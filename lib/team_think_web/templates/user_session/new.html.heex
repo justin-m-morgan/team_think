@@ -4,12 +4,12 @@
     <.form_error_alert message={@error_message} />
   <% end %>
   <.form_container>
-    <.form_field f={f} field={:email} let={field_class}>
-      <%= email_input f, :email, required: true, class: field_class %>
+    <.form_field f={f} field={:email}>
+      <%= email_input f, :email, required: true, class: "inputs" %>
     </.form_field>
     
-    <.form_field f={f} field={:password} let={field_class}>
-      <%= password_input f, :password, required: true, class: field_class %>
+    <.form_field f={f} field={:password}>
+      <%= password_input f, :password, required: true, class: "inputs" %>
     </.form_field>
     
     <.form_checkbox f={f} field={:remember_me} label="Would you like to stay logged in for 28 days?" />

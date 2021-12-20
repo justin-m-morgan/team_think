@@ -1,8 +1,8 @@
 <.form_card title="Forgot Your Password?">
   <.form let={f} for={:user} action={Routes.user_reset_password_path(@conn, :create)}>
     <.form_container>
-      <.form_field f={f} field={:email} let={field_class}>
-          <%= email_input f, :email, required: true, class: field_class %>
+      <.form_field f={f} field={:email}>
+          <%= email_input f, :email, required: true, class: "inputs" %>
         </.form_field>
       
 

@@ -79,7 +79,6 @@ defmodule TeamThinkWeb.Router do
     put "/users/settings", UserSettingsController, :update
     get "/users/settings/confirm_email/:token", UserSettingsController, :confirm_email
 
-    live "/dashboard", ProjectLive.Index, :index
     live "/projects", ProjectLive.Index, :index
     live "/projects/new", ProjectLive.Index, :new
 

@@ -8,18 +8,18 @@
 <% end %>
 
 <ResourceIndex.template 
-  resource={@project}
+  breadcrumbs_resource={@project}
   resource_name="task_list"
   title="Task Lists"
   new_path={Routes.task_list_index_path(@socket, :new, @project_id)}
   new_label="Add List"
   resource_list={@task_lists}
+  show_link={fn task_list -> Routes.task_list_show_path(@socket, :show, @project, task_list) end}
+  edit_link={fn task_list -> Routes.task_list_show_path(@socket, :edit, @project, task_list) end}
 >
+  <:svg><Svg.Illustrations.illustration illustration_name="working_late" class="h-8" /></:svg>
   <:resource_heading let={task_list}><%= task_list.name %></:resource_heading>
   <:resource_summary let={task_list}><%= task_list.description %></:resource_summary>
-  <:show_link let={task_list}><%= Routes.task_list_show_path(@socket, :show, @project_id, task_list) %></:show_link>
-  <:edit_link let={task_list}><%= Routes.task_list_show_path(@socket, :edit, @project_id, task_list) %></:edit_link>
-  <:delete_link let={task_list}><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: task_list.id, data: [confirm: "Are you sure?"] %></:delete_link>
 </ResourceIndex.template>
 
 

@@ -13,12 +13,7 @@ defmodule TeamThinkWeb.ProjectLive.Index do
 
   @impl true
   def mount(_params, _session, socket) do
-    {
-      :ok,
-      socket
-      |> assign_projects()
-      |> group_projects()
-    }
+    {:ok, socket |> assign_projects()}
   end
 
   defp assign_projects(socket) do
@@ -27,6 +22,7 @@ defmodule TeamThinkWeb.ProjectLive.Index do
     socket
     |> assign(:teams, teams)
     |> assign(:projects, Enum.map(teams, &(&1.project)))
+    |> group_projects()
   end
 
   defp group_projects(socket) do
@@ -79,16 +75,11 @@ defmodule TeamThinkWeb.ProjectLive.Index do
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    user = socket.assigns.user
     project = Projects.get_project!(id)
     {:ok, _} = Projects.delete_project(project)
 
-    {:noreply, assign(socket, :projects, list_projects(user))}
-  end
 
-
-  defp list_projects(user) do
-    Projects.get_projects_by_user(user)
+    { :noreply, assign_projects(socket)}
   end
 
 end

@@ -49,11 +49,11 @@ defmodule TeamThink.Teams do
 
   """
   def get_team_by_project_id!(project_id, opts \\ []) do
-    preloads = opts[:preload] || []
+    preloads = opts[:preload] || :team_mates
 
     Team
     |> where([t], t.project_id == ^project_id)
-    |> preload(:team_mates)
+    |> preload(^preloads)
     |> Repo.one!()
   end
 

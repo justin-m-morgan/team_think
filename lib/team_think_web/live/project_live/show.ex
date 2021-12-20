@@ -25,7 +25,7 @@ defmodule TeamThinkWeb.ProjectLive.Show do
 
 
   defp assign_team(socket, project) do
-    assign(socket, :team, Teams.get_team_by_project_id!(project.id))
+    assign(socket, :team, Teams.get_team_by_project_id!(project.id, preload: :team_mates))
   end
 
   defp assign_navigation_items(socket, project) do

@@ -61,6 +61,7 @@ defmodule TeamThink.MixProject do
       {:hackney, "~> 1.18"},
       {:stream_data, "~> 0.5.0", only: :test},
       {:wallaby, "~> 0.29.0", runtime: false, only: :test},
+      {:timex, "~> 3.7.6"}
     ]
   end
 

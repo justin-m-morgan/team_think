@@ -26,9 +26,11 @@ defmodule TeamThink.Factory.ProjectFactory do
         %Project{
           name: Faker.Company.catch_phrase(),
           description: Faker.Lorem.sentence(),
+          team: fn -> build(:team) end,
           user: build(:valid_user)
         }
       end
+
     end
   end
 end

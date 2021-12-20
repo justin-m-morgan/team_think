@@ -18,7 +18,8 @@ defmodule TeamThink.Factory.TaskListFactory do
         %TaskList{
           name: Faker.Lorem.sentence(2..5),
           description: Faker.Lorem.sentence(10..20),
-          project: build(:project)
+          project: build(:project),
+          tasks: build_list(3, :task)
         }
       end
 

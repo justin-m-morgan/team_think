@@ -5,6 +5,8 @@ defmodule TeamThink.TaskListsSpec do
   alias TeamThink.TaskLists
   alias TeamThink.TaskLists.TaskList
 
+  import TeamThink.TestingUtilities, only: [delete_keys: 2]
+
   describe "getting task lists" do
     setup do
       parent_project = Factory.insert(:project)
@@ -26,8 +28,8 @@ defmodule TeamThink.TaskListsSpec do
     end
 
     test "should return a requested task_list by its id", context do
-      random_task_list = context[:project_task_lists] |> Enum.random() |> Map.delete(:project)
-      fetched_task_list = TaskLists.get_task_list!(random_task_list.id) |> Map.delete(:project)
+      random_task_list = context[:project_task_lists] |> Enum.random() |> delete_keys([:project, :tasks])
+      fetched_task_list = TaskLists.get_task_list!(random_task_list.id) |> delete_keys([:project, :tasks])
 
       assert fetched_task_list == random_task_list
     end
@@ -81,8 +83,8 @@ defmodule TeamThink.TaskListsSpec do
       %{task_list: original_task_list} = context
       invalid_attrs = Factory.build(:invalid_task_list_params)
       {result, return} = TaskLists.update_task_list(original_task_list, invalid_attrs)
-      comparable_original_list = original_task_list |> Map.delete(:project)
-      comparable_fetched_list = TaskLists.get_task_list!(original_task_list.id) |> Map.delete(:project)
+      comparable_original_list = original_task_list |> delete_keys([:project, :tasks])
+      comparable_fetched_list = TaskLists.get_task_list!(original_task_list.id) |> delete_keys([:project, :tasks])
 
       assert {:error, %Ecto.Changeset{}} = {result, return}
       assert comparable_original_list == comparable_fetched_list

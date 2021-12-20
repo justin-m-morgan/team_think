@@ -3,6 +3,8 @@ defmodule TeamThink.TeamsTest do
 
   alias TeamThink.Teams
 
+  import TeamThink.TestingUtilities, only: [delete_keys: 2]
+
   describe "teams" do
     alias TeamThink.Teams.Team
 
@@ -10,15 +12,15 @@ defmodule TeamThink.TeamsTest do
 
 
     test "should be able to fetch a given team by its id" do
-      created_team = insert(:team) |> Map.delete(:project)
-      fetched_team = Teams.get_team!(created_team.id) |> Map.delete(:project)
+      created_team = insert(:team) |> delete_keys([:project, :team_mates])
+      fetched_team = Teams.get_team!(created_team.id) |> delete_keys([:project, :team_mates])
       assert  created_team == fetched_team
     end
 
-    test "should be able ot fetch a given team by its project_id" do
+    test "should be able to fetch a given team by its project_id" do
       project = insert(:project)
-      created_team = insert(:team, project: project) |> Map.delete(:project)
-      fetched_team = Teams.get_team_by_project_id!(project.id) |> Map.delete(:project)
+      created_team = project.team |> delete_keys([:project, :team_mates])
+      fetched_team = Teams.get_team_by_project_id!(project.id) |> delete_keys([:project, :team_mates])
 
       assert  created_team == fetched_team
     end

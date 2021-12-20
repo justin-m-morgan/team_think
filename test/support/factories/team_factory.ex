@@ -7,7 +7,7 @@ defmodule TeamThink.Factory.TeamFactory do
 
       def team_factory() do
         %Team{
-          project: build(:project)
+          team_mates: build_list(3, :valid_user)
         }
       end
     end

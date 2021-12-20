@@ -41,8 +41,7 @@ defmodule TeamThink.Factory.TaskFactory do
       def task_factory() do
         %Task{
           name: Faker.Lorem.sentence(2..5),
-          description: Faker.Lorem.sentence(5..10),
-          task_list: build(:task_list)
+          description: Faker.Lorem.sentence(5..10)
         }
       end
 

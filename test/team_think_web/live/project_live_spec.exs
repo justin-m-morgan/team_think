@@ -2,35 +2,33 @@ defmodule TeamThinkWeb.ProjectLiveTest do
   use TeamThinkWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
+  import TeamThink.TestingUtilities, only: [create_project: 1, create_many_projects: 1]
 
   alias TeamThink.Factory
   alias TeamThink.Teams
 
-  @projects_container_tag ~s/[data-test="projects-container"]/
+  # @projects_container_tag ~s/[data-test="projects-container"]/
   @project_details_tag ~s/[data-test="project-details"]/
 
-  defp create_project(%{user: user}) do
-    %{project: Factory.insert(:project, user: user)}
-  end
 
-  describe "Index LiveView" do
+  describe "Empty Index LiveView" do
     setup [:register_and_log_in_user]
 
     test "should render a placeholder message when no projects assigned to user", %{conn: conn} do
       empty_placeholder_tag = "no-projects-placeholder"
-      {:ok, index_live, _html} = live(conn, Routes.project_index_path(conn, :index))
+      {:ok, _index_live, html} = live(conn, Routes.project_index_path(conn, :index))
 
-      index_live
-      |> element(@projects_container_tag)
-      |> render()
-      |> then(fn html ->
-        assert html =~ empty_placeholder_tag
-      end)
+      assert html =~ empty_placeholder_tag
+
     end
+  end
 
-    test "should render an item for each project", %{conn: conn, user: user} do
-      generated_count = 5
-      Factory.insert_list(generated_count, :project, user: user)
+  describe "Index LiveView" do
+    setup [:register_and_log_in_user, :create_many_projects]
+
+    test "should render an item for each project", %{conn: conn} do
+      generated_count = 3 # arbitrary, per hardcoded value in helper
+
       {:ok, _index_live, html} = live(conn, Routes.project_index_path(conn, :index))
 
       html
@@ -41,8 +39,8 @@ defmodule TeamThinkWeb.ProjectLiveTest do
       end)
     end
 
-    test "should be able to navigate to the project show page", %{conn: conn, user: user} do
-      project = Factory.insert(:project, user: user)
+    test "should be able to navigate to the project show page", %{conn: conn, projects: projects} do
+      project = List.first(projects)
       {:ok, index_live, _html} = live(conn, Routes.project_index_path(conn, :index))
 
       index_live
@@ -53,7 +51,7 @@ defmodule TeamThinkWeb.ProjectLiveTest do
     end
 
     test "should be able to edit the project in a modal", %{conn: conn, user: user} do
-      project = Factory.insert(:project, user: user)
+      %{project: project} = create_project(%{user: user})
       {:ok, index_live, _html} = live(conn, Routes.project_index_path(conn, :index))
 
       index_live
@@ -63,8 +61,8 @@ defmodule TeamThinkWeb.ProjectLiveTest do
       assert_patch(index_live, Routes.project_show_path(conn, :edit, project))
     end
 
-    test "should be able to delete the project", %{conn: conn, user: user} do
-      project = Factory.insert(:project, user: user)
+    test "should be able to delete the project", %{conn: conn, projects: projects} do
+      project = List.first(projects)
       {:ok, index_live, _html} = live(conn, Routes.project_index_path(conn, :index))
 
       index_live

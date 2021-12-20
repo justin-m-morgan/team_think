@@ -4,6 +4,8 @@ defmodule TeamThink.ProjectSpec do
   alias TeamThink.Factory
   alias TeamThink.Projects
 
+  import TeamThink.TestingUtilities, only: [delete_keys: 2]
+
   describe "getting projects" do
     setup do
       user = Factory.insert(:valid_user)
@@ -25,8 +27,8 @@ defmodule TeamThink.ProjectSpec do
     end
 
     test "should return a requested project by its id", context do
-      random_project = context[:users_projects] |> Enum.random() |> Map.delete(:user)
-      fetched_project = Projects.get_project!(random_project.id) |> Map.delete(:user)
+      random_project = context[:users_projects] |> Enum.random() |> delete_keys([:user, :team])
+      fetched_project = Projects.get_project!(random_project.id) |> delete_keys([:user, :team])
 
       assert fetched_project == random_project
     end
@@ -80,8 +82,8 @@ defmodule TeamThink.ProjectSpec do
       %{project: original_project} = context
       invalid_attrs = Factory.build(:invalid_project_params)
       {result, return} = Projects.update_project(original_project, invalid_attrs)
-      comparable_original_list = original_project |> Map.delete(:user)
-      comparable_fetched_list = Projects.get_project!(original_project.id) |> Map.delete(:user)
+      comparable_original_list = delete_keys(original_project, [:user, :team])
+      comparable_fetched_list = Projects.get_project!(original_project.id) |> delete_keys([:user, :team])
 
       assert {:error, %Ecto.Changeset{}} = {result, return}
       assert comparable_original_list == comparable_fetched_list

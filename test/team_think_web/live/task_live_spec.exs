@@ -2,17 +2,15 @@ defmodule TeamThinkWeb.TaskLiveTest do
   use TeamThinkWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
+  import TeamThink.TestingUtilities, only: [create_project: 1]
 
   alias TeamThink.Factory
 
   @tasks_container_tag ~s/[data-test="tasks-container"]/
   @task_details_tag ~s/[data-test="task-details"]/
 
-  defp create_project(%{user: user}) do
-    %{project: Factory.insert(:project, user: user)}
-  end
   defp create_task_list(%{project: project}) do
-    %{task_list: Factory.insert(:task_list, project: project)}
+    %{task_list: Factory.insert(:task_list, project: project, tasks: [])}
   end
   defp create_task(%{task_list: task_list}) do
     %{task: Factory.insert(:task, task_list: task_list)}

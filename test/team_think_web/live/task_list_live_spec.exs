@@ -2,24 +2,19 @@ defmodule TeamThinkWeb.TaskListLiveTest do
   use TeamThinkWeb.ConnCase, async: true
 
   import Phoenix.LiveViewTest
+  import TeamThink.TestingUtilities, only: [create_project: 1]
 
   alias TeamThink.Factory
 
   @task_lists_container_tag ~s/[data-test="task_lists-container"]/
   @task_list_details_tag ~s/[data-test="task_list-details"]/
 
-  defp create_project(%{user: user}) do
-    %{project: Factory.insert(:project, user: user)}
-  end
-  defp create_task_list(%{project: project}) do
-    %{task_list: Factory.insert(:task_list, project: project)}
-  end
-
   describe "Index LiveView" do
     setup [:register_and_log_in_user, :create_project]
 
       test "should render a placeholder message when no task_lists assigned to project", %{conn: conn, project: project} do
         empty_placeholder_tag = "no-task_lists-placeholder"
+
         {:ok, index_live, _html} = live(conn, Routes.task_list_index_path(conn, :index, project))
 
         index_live
@@ -89,6 +84,11 @@ defmodule TeamThinkWeb.TaskListLiveTest do
             assert html =~ new_params.description
           end)
       end
+  end
+
+  defp create_task_list(%{project: project}) do
+    task_list = Factory.insert(:task_list, project: project)
+    %{task_list: task_list}
   end
 
 

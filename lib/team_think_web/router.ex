@@ -20,12 +20,12 @@ defmodule TeamThinkWeb.Router do
   scope "/", TeamThinkWeb do
     pipe_through :browser
 
-    live "/conversations", ConversationLive.Index, :index
-    live "/conversations/new", ConversationLive.Index, :new
-    live "/conversations/:id/edit", ConversationLive.Index, :edit
+    # live "/conversations", ConversationLive.Index, :index
+    # live "/conversations/new", ConversationLive.Index, :new
+    # live "/conversations/:id/edit", ConversationLive.Index, :edit
 
-    live "/conversations/:id", ConversationLive.Show, :show
-    live "/conversations/:id/show/edit", ConversationLive.Show, :edit
+    # live "/conversations/:id", ConversationLive.Show, :show
+    # live "/conversations/:id/show/edit", ConversationLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
@@ -91,6 +91,9 @@ defmodule TeamThinkWeb.Router do
     live_session :team_mates, on_mount: {TeamThinkWeb.UserLiveAuth, :team_members} do
       live "/projects/:project_id", ProjectLive.Show, :show
       live "/projects/:project_id/show/edit", ProjectLive.Show, :edit
+
+      live "/projects/:project_id/conversations", ConversationLive.Show, :show
+      # live "/projects/:project_id/conversations/:id/show/edit", ConversationLive.Show, :edit
 
       live "/projects/:project_id/team/:team_id", TeamLive.Show, :show
 

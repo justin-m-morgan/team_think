@@ -51,7 +51,13 @@ defmodule TeamThink.Projects do
       ** (Ecto.NoResultsError)
 
   """
-  def get_project!(id), do: Repo.get!(Project, id)
+  def get_project!(id, opts \\ []) do
+    preloads = opts[:preload] || []
+
+    Project
+    |> preload(^preloads)
+    |> Repo.get!(id)
+  end
 
 
 

@@ -1,17 +1,29 @@
-<h1>Show Conversation</h1>
+<ResourceShow.show 
+  resource_name="project"
+  resource={@project}
+>
+  <:heading><%= @project.name %> Conversation</:heading>
+  <:description><p class="text-center text-2xl font-thin">A place to permanently record information related to the overall project concerns.</p></:description>
 
-<%= if @live_action in [:edit] do %>
-  <%= live_modal TeamThinkWeb.ConversationLive.FormComponent,
-    id: @conversation.id,
-    title: @page_title,
-    action: @live_action,
-    conversation: @conversation,
-    return_to: Routes.conversation_show_path(@socket, :show, @conversation) %>
-<% end %>
+<div class="px-4 py-3 md:col-span-3 min-h-[16rem] flex flex-col justify-between rounded-lg border">
+  <div class="pb-2">
+    <ul class="space-y-2">
+      <%= for message <- @messages do %>
+        <li>
 
-<ul>
+        </li>
+        <li class="block">
+          <.talk_bubble user={@user} message={message} />
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <.live_component 
+    module={MessageLive.FormComponent} 
+    id="message-form" 
+    conversation={@conversation}
+    user={@user}
+  />
+</div>
+</ResourceShow.show>
 
-</ul>
-
-<span><%= live_patch "Edit", to: Routes.conversation_show_path(@socket, :edit, @conversation), class: "button" %></span> |
-<span><%= live_redirect "Back", to: Routes.conversation_index_path(@socket, :index) %></span>

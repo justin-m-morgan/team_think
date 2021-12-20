@@ -5,6 +5,7 @@ defmodule TeamThinkWeb.ProjectLive.FormComponent do
 
   alias TeamThink.Projects
   alias TeamThink.Teams
+  alias TeamThink.Conversations
 
   @impl true
   def update(%{project: project} = assigns, socket) do
@@ -51,7 +52,8 @@ defmodule TeamThinkWeb.ProjectLive.FormComponent do
 
     with {:ok, project} <- Projects.create_project(project_params),
          {:ok, team} <- Teams.create_team(%{project_id: project.id}),
-         {:ok, _team} <- Teams.add_team_member(team, current_user)
+         {:ok, _team} <- Teams.add_team_member(team, current_user),
+         {:ok, _conversation} <- Conversations.create_conversation(project)
          do
       {:noreply,
        socket

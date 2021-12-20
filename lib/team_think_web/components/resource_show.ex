@@ -6,6 +6,11 @@ defmodule TeamThinkWeb.Components.ResourceShow do
   use TeamThinkWeb, :component
 
   def show(assigns) do
+    assigns =
+      assigns
+        |> assign_new(:edit_path, fn -> false end)
+        |> assign_new(:navigation_items, fn -> false end)
+
     ~H"""
     <.live_component module={Ui.Breadcrumbs} id="breadcrumbs" resource={@resource} />
 
@@ -18,17 +23,23 @@ defmodule TeamThinkWeb.Components.ResourceShow do
         <p class="max-w-xl pt-2 pb-8">
           <%= render_slot(@description) %>
         </p>
-        <%= live_patch to: @edit_path, aria_label: "Edit" do %>
-          <Svg.edit class="h-6" />
+        <%= if @edit_path do %>
+          <%= live_patch to: @edit_path, aria_label: "Edit" do %>
+            <Svg.edit class="h-6" />
+          <% end %>
         <% end %>
       </div>
 
       <div class="lg:col-span-2 grid lg:grid-cols-3 gap-12">
-        <%= for %{illustration_name: illustration_name, to: to, label: label} <- @navigation_items do %>
-          <.navigation_item
-            illustration_name={illustration_name}
-            label={label}
-            to={to}/>
+        <%= if @navigation_items do %>
+          <%= for %{illustration_name: illustration_name, to: to, label: label} <- @navigation_items do %>
+            <.navigation_item
+              illustration_name={illustration_name}
+              label={label}
+              to={to}/>
+          <% end %>
+        <% else %>
+          <%= render_slot(@inner_block) %>
         <% end %>
       </div>
     </div>

@@ -38,20 +38,62 @@ defmodule TeamThink.Conversations do
   def get_conversation!(id), do: Repo.get!(Conversation, id)
 
   @doc """
-  Creates a conversation.
+  Gets a single conversation by project_id.
+
+  Raises `Ecto.NoResultsError` if the Conversation does not exist.
 
   ## Examples
 
-      iex> create_conversation(%{field: value})
+      iex> get_conversation_by_project_id!(123)
+      %Conversation{}
+
+      iex> get_conversation_by_project_id!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_conversation_by_project_id!(project_id, opts \\ [])
+  def get_conversation_by_project_id!(project_id, opts) when is_binary(project_id) do
+    project_id
+    |> String.to_integer()
+    |> get_conversation_by_project_id!(opts)
+  end
+  def get_conversation_by_project_id!(project_id, opts) do
+    preloads = opts[:preload] || []
+
+    Conversation
+    |> where([c], c.project_id == ^project_id)
+    |> preload(:messages)
+    |> Repo.one!()
+  end
+
+
+  @doc """
+  Creates a conversation associated with a resource.
+
+  Currently supported resources:
+
+  - Project
+  - TaskList
+  - Task
+
+  ## Examples
+
+      iex> create_conversation(%Project{})
       {:ok, %Conversation{}}
 
-      iex> create_conversation(%{field: bad_value})
+      iex> create_conversation(%TaskList{})
+      {:ok, %Conversation{}}
+
+      iex> create_conversation(%Task{})
+      {:ok, %Conversation{}}
+
+      iex> create_conversation(%{})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_conversation(attrs \\ %{}) do
+  def create_conversation(resource) do
     %Conversation{}
-    |> Conversation.changeset(attrs)
+    |> Conversation.changeset(resource)
     |> Repo.insert()
   end
 

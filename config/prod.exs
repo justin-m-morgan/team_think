@@ -10,7 +10,8 @@ import Config
 # which you should run after static files are built and
 # before starting your production server.
 config :team_think, TeamThinkWeb.Endpoint,
-  url: [host: "https://team-think.herokuapp.com/", port: 443],
+  url: [host: "https://team-think.herokuapp.com", port: 443],
+  check_origin: ["https://team-think.herokuapp.com"],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json"
 

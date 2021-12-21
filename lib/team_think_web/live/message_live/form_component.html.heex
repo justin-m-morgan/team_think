@@ -1,4 +1,5 @@
 <div>
+
   <.form
     let={f}
     for={@changeset}
@@ -11,11 +12,13 @@
     <%= hidden_input f, :conversation_id, value: @conversation.id %>
 
     
-    <div class="flex">
-    <%= textarea f, :content, class: "inputs w-full" %>
-    <%= error_tag f, :content %>
+    <div class="flex justify-between">
+      <div class="w-full">
+      <%= textarea f, :content, class: "inputs w-full bg-gray-200" %>
+      <%= error_tag f, :content %>
+      </div>
 
-    <%= submit "Save", class: "button", phx_disable_with: "Saving..." %>
+    <%= submit "Send", class: "button", phx_disable_with: "Saving..." %>
     </div>
   
   </.form>

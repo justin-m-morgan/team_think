@@ -7,6 +7,8 @@ defmodule TeamThink.Conversations do
   alias TeamThink.Repo
 
   alias TeamThink.Conversations.Conversation
+  alias TeamThink.Messages.Message
+  alias TeamThink.Accounts.User
 
   @doc """
   Returns the list of conversations.
@@ -62,9 +64,10 @@ defmodule TeamThink.Conversations do
 
     Conversation
     |> where([c], c.project_id == ^project_id)
-    |> preload(:messages)
+    |> preload(^preloads)
     |> Repo.one!()
   end
+
 
 
   @doc """

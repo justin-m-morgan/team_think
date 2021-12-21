@@ -9,4 +9,5 @@ defmodule TeamThink.Factory do
   use TeamThink.Factory.TaskFactory
   use TeamThink.Factory.TaskListFactory
   use TeamThink.Factory.TeamFactory
+  use TeamThink.Factory.ConversationFactory
 end

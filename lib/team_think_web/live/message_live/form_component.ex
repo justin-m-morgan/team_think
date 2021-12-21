@@ -2,6 +2,18 @@ defmodule TeamThinkWeb.MessageLive.FormComponent do
   use TeamThinkWeb, :live_component
 
   alias TeamThink.Messages
+  alias TeamThink.Conversations
+
+
+  def mount(%{"project_id" => project_id}, _session, socket) do
+    conversation = Conversations.get_conversation_by_project_id!(project_id)
+
+    {
+      :ok,
+      socket
+        |> assign(:conversation, conversation)
+    }
+  end
 
   @impl true
   def update(assigns, socket) do
@@ -27,32 +39,23 @@ defmodule TeamThinkWeb.MessageLive.FormComponent do
 
   def handle_event("save", %{"message" => message_params}, socket) do
     save_message(socket, :new, message_params)
+
+    TeamThinkWeb.Endpoint.broadcast(socket.assigns.topic, "new_message", %{})
+
+    {:noreply, socket}
   end
-
-  # defp save_message(socket, :edit, message_params) do
-  #   case Messages.update_message(socket.assigns.message, message_params) do
-  #     {:ok, _message} ->
-  #       {:noreply,
-  #        socket
-  #        |> put_flash(:info, "Message updated successfully")
-  #        |> push_redirect(to: socket.assigns.return_to)}
-
-  #     {:error, %Ecto.Changeset{} = changeset} ->
-  #       {:noreply, assign(socket, :changeset, changeset)}
-  #   end
-  # end
 
   defp save_message(socket, :new, message_params) do
     case Messages.create_message(message_params) do
       {:ok, _message} ->
         {:noreply,
          socket
-
-        #  |> push_redirect(to: socket.assigns.return_to)}
+         |> assign(:changeset, Messages.change_message(%Messages.Message{}))
       }
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
+
 end

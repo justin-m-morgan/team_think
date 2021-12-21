@@ -5,12 +5,29 @@ defmodule TeamThinkWeb.ConversationLive.Show do
   alias TeamThinkWeb.Components.ResourceShow
   alias TeamThinkWeb.MessageLive
   alias TeamThink.Conversations
+  alias TeamThink.Messages
   alias TeamThink.Projects
 
+
+
   @impl true
-  def mount(_params, _session, socket) do
-    {:ok, socket}
+  def mount(%{"project_id" => project_id}, _session, socket) do
+    topic = "project:#{project_id}"
+
+    TeamThinkWeb.Endpoint.subscribe(topic)
+
+    {:ok, assign(socket, :topic, topic)}
   end
+
+  @impl true
+  def handle_info(%{event: "new_message"}, socket) do
+    {
+      :noreply,
+      socket
+        |> assign_conversation(socket.assigns.project.id)
+    }
+  end
+
 
   @impl true
   def handle_params(%{"project_id" => project_id}, _, socket) do
@@ -21,11 +38,14 @@ defmodule TeamThinkWeb.ConversationLive.Show do
     }
   end
 
+
   defp assign_conversation(socket, project_id) do
     project = Projects.get_project!(project_id,
       preload: [conversation: [messages: [:user]]]
       )
-    messages = project.conversation.messages
+
+    messages =
+      project.conversation.messages
       |> Enum.sort(&sort_messages/2)
       |> Enum.take(5)
       |> Enum.reverse()

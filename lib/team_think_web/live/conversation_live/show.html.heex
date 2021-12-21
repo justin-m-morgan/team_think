@@ -9,9 +9,6 @@
   <div class="pb-2">
     <ul class="space-y-2">
       <%= for message <- @messages do %>
-        <li>
-
-        </li>
         <li class="block">
           <.talk_bubble user={@user} message={message} />
         </li>
@@ -23,6 +20,7 @@
     id="message-form" 
     conversation={@conversation}
     user={@user}
+    topic={@topic}
   />
 </div>
 </ResourceShow.show>

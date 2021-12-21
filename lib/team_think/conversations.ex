@@ -7,8 +7,6 @@ defmodule TeamThink.Conversations do
   alias TeamThink.Repo
 
   alias TeamThink.Conversations.Conversation
-  alias TeamThink.Messages.Message
-  alias TeamThink.Accounts.User
 
   @doc """
   Returns the list of conversations.
@@ -162,39 +160,6 @@ defmodule TeamThink.Conversations do
     |> Repo.insert()
   end
 
-  @doc """
-  Updates a conversation.
-
-  ## Examples
-
-      iex> update_conversation(conversation, %{field: new_value})
-      {:ok, %Conversation{}}
-
-      iex> update_conversation(conversation, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_conversation(%Conversation{} = conversation, attrs) do
-    conversation
-    |> Conversation.changeset(attrs)
-    |> Repo.update()
-  end
-
-  @doc """
-  Deletes a conversation.
-
-  ## Examples
-
-      iex> delete_conversation(conversation)
-      {:ok, %Conversation{}}
-
-      iex> delete_conversation(conversation)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_conversation(%Conversation{} = conversation) do
-    Repo.delete(conversation)
-  end
 
   @doc """
   Returns an `%Ecto.Changeset{}` for tracking conversation changes.

@@ -42,9 +42,15 @@ defmodule TeamThink.Conversations.Conversation do
     |> put_assoc(:task, task)
   end
 
-  # def changeset(conversation, attrs) do
-  #   conversation
-  #   |> cast(attrs, [])
-  #   |> validate_required([])
-  # end
+  def changeset(conversation, _) do
+    error_message = "Must provide a resource to associate the conversation with"
+
+    conversation
+    |> change()
+    |> add_error(:team, error_message)
+    |> add_error(:task_list, error_message)
+    |> add_error(:task, error_message)
+    |> add_error(:project, error_message)
+
+  end
 end

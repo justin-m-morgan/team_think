@@ -23,7 +23,8 @@ defmodule TeamThink.ConversationsTest do
     test "create_conversation/1 with valid data creates a conversation" do
       valid_attrs = %{}
 
-      assert {:ok, %Conversation{} = conversation} = Conversations.create_conversation(valid_attrs)
+      assert {:ok, %Conversation{} = conversation} =
+               Conversations.create_conversation(valid_attrs)
     end
 
     test "create_conversation/1 with invalid data returns error changeset" do
@@ -34,12 +35,16 @@ defmodule TeamThink.ConversationsTest do
       conversation = conversation_fixture()
       update_attrs = %{}
 
-      assert {:ok, %Conversation{} = conversation} = Conversations.update_conversation(conversation, update_attrs)
+      assert {:ok, %Conversation{} = conversation} =
+               Conversations.update_conversation(conversation, update_attrs)
     end
 
     test "update_conversation/2 with invalid data returns error changeset" do
       conversation = conversation_fixture()
-      assert {:error, %Ecto.Changeset{}} = Conversations.update_conversation(conversation, @invalid_attrs)
+
+      assert {:error, %Ecto.Changeset{}} =
+               Conversations.update_conversation(conversation, @invalid_attrs)
+
       assert conversation == Conversations.get_conversation!(conversation.id)
     end
 

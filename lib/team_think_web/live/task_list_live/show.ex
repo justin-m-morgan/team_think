@@ -9,7 +9,7 @@ defmodule TeamThinkWeb.TaskListLive.Show do
     {
       :ok,
       socket
-        |> assign(:project_id, project_id)
+      |> assign(:project_id, project_id)
     }
   end
 
@@ -27,7 +27,6 @@ defmodule TeamThinkWeb.TaskListLive.Show do
 
   defp navigation_items(socket, project_id, list_id) do
     [
-
       %{
         illustration_name: "next_tasks",
         to: Routes.task_index_path(socket, :index, project_id, list_id),

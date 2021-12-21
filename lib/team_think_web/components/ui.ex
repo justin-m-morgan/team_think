@@ -21,9 +21,9 @@ defmodule TeamThinkWeb.Components.Ui do
   def icon_card(assigns) do
     assigns =
       assigns
-        |> assign_new(:heading, fn -> [] end)
-        |> assign_new(:icon, fn -> [] end)
-        |> assign_new(:simple_text, fn -> [] end)
+      |> assign_new(:heading, fn -> [] end)
+      |> assign_new(:icon, fn -> [] end)
+      |> assign_new(:simple_text, fn -> [] end)
 
     ~H"""
 

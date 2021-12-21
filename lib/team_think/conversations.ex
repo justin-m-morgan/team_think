@@ -54,11 +54,13 @@ defmodule TeamThink.Conversations do
 
   """
   def get_conversation_by_project_id!(project_id, opts \\ [])
+
   def get_conversation_by_project_id!(project_id, opts) when is_binary(project_id) do
     project_id
     |> String.to_integer()
     |> get_conversation_by_project_id!(opts)
   end
+
   def get_conversation_by_project_id!(project_id, opts) do
     preloads = opts[:preload] || []
 
@@ -83,11 +85,13 @@ defmodule TeamThink.Conversations do
 
   """
   def get_conversation_by_list_id!(list_id, opts \\ [])
+
   def get_conversation_by_list_id!(list_id, opts) when is_binary(list_id) do
     list_id
     |> String.to_integer()
     |> get_conversation_by_list_id!(opts)
   end
+
   def get_conversation_by_list_id!(list_id, opts) do
     preloads = opts[:preload] || []
 
@@ -112,11 +116,13 @@ defmodule TeamThink.Conversations do
 
   """
   def get_conversation_by_task_id!(task_id, opts \\ [])
+
   def get_conversation_by_task_id!(task_id, opts) when is_binary(task_id) do
     task_id
     |> String.to_integer()
     |> get_conversation_by_task_id!(opts)
   end
+
   def get_conversation_by_task_id!(task_id, opts) do
     preloads = opts[:preload] || []
 
@@ -125,8 +131,6 @@ defmodule TeamThink.Conversations do
     |> preload(^preloads)
     |> Repo.one!()
   end
-
-
 
   @doc """
   Creates a conversation associated with a resource.

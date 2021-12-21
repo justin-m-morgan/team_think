@@ -5,7 +5,6 @@ defmodule TeamThink.Teams.Team do
   alias TeamThink.Projects.Project
   alias TeamThink.Accounts.User
 
-
   schema "teams" do
     belongs_to :project, Project
 
@@ -38,6 +37,7 @@ defmodule TeamThink.Teams.Team do
 
   def remove_teammate_changeset(team, %User{} = to_remove) do
     preloaded_team = TeamThink.Repo.preload(team, :team_mates)
+
     filtered_team_list =
       Enum.filter(
         preloaded_team.team_mates,

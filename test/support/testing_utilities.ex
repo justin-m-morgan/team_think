@@ -1,5 +1,4 @@
 defmodule TeamThink.TestingUtilities do
-
   alias TeamThink.Factory
 
   @doc """
@@ -15,12 +14,14 @@ defmodule TeamThink.TestingUtilities do
   """
   def create_project(%{user: user}) do
     %{
-      project: Factory.insert(:project,
-        user: user,
-        team: Factory.build(:team, team_mates: [user])
-      )
+      project:
+        Factory.insert(:project,
+          user: user,
+          team: Factory.build(:team, team_mates: [user])
+        )
     }
   end
+
   def create_many_projects(%{user: user}) do
     %{
       projects:
@@ -30,5 +31,4 @@ defmodule TeamThink.TestingUtilities do
         )
     }
   end
-
 end

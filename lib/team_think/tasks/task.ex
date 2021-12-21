@@ -7,7 +7,11 @@ defmodule TeamThink.Tasks.Task do
   schema "tasks" do
     field :description, :string
     field :name, :string
-    field :status, Ecto.Enum, values: [:outstanding, :in_progress, :complete], default: :outstanding
+
+    field :status, Ecto.Enum,
+      values: [:outstanding, :in_progress, :complete],
+      default: :outstanding
+
     belongs_to :task_list, TaskList
 
     timestamps()

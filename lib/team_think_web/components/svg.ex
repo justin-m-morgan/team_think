@@ -13,6 +13,7 @@ defmodule TeamThinkWeb.Components.Svg do
     </svg>
     """
   end
+
   def edit(assigns) do
     ~H"""
     <svg class={@class} aria-hidden="true" focusable="false" class="svg-inline--fa fa-pen-to-square" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">

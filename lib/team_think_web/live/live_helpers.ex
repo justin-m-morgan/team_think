@@ -21,7 +21,6 @@ defmodule TeamThinkWeb.LiveHelpers do
     live_component(TeamThinkWeb.ModalComponent, modal_opts)
   end
 
-
   @doc """
   Allows for a list of CSS-classes to be provided in tuple form or binary.
 

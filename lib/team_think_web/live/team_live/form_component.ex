@@ -51,25 +51,25 @@ defmodule TeamThinkWeb.TeamLive.FormComponent do
 
   defp disabled_submit_classes(candidate, valid) when is_nil(candidate) or not valid,
     do: "opacity-25 hover:bg-gray-50 hover:text-gray-800"
+
   defp disabled_submit_classes(_candidate, _valid), do: ""
 
   def handle_event("validate", %{"team" => team_params}, socket) do
-      candidate = Accounts.get_user_by_email(team_params["email"])
-      current_team_mates = socket.assigns.team.team_mates
+    candidate = Accounts.get_user_by_email(team_params["email"])
+    current_team_mates = socket.assigns.team.team_mates
 
-      changeset =
-        socket.assigns.team
-        |> Teams.change_team_members(candidate)
-        |> maybe_put_already_memeber_error(current_team_mates, candidate)
-        |> Map.put(:action, :validate)
+    changeset =
+      socket.assigns.team
+      |> Teams.change_team_members(candidate)
+      |> maybe_put_already_memeber_error(current_team_mates, candidate)
+      |> Map.put(:action, :validate)
 
     {
       :noreply,
       socket
-        |> assign(:candidate, candidate)
-        |> assign(:changeset, changeset)
+      |> assign(:candidate, candidate)
+      |> assign(:changeset, changeset)
     }
-
   end
 
   def handle_event("save", _, socket) do
@@ -82,7 +82,7 @@ defmodule TeamThinkWeb.TeamLive.FormComponent do
     case Teams.add_team_member(team, candidate) do
       {:ok, %Team{} = team} ->
         updated_team = TeamThink.Repo.preload(team, :team_mates)
-        send self(), {:updated_team, updated_team}
+        send(self(), {:updated_team, updated_team})
 
         {
           :noreply,
@@ -92,18 +92,15 @@ defmodule TeamThinkWeb.TeamLive.FormComponent do
           |> assign(:candidate, nil)
         }
 
-
       {:error, %Ecto.Changeset{} = changeset} ->
-          {:noreply, assign(socket, changeset: changeset)}
+        {:noreply, assign(socket, changeset: changeset)}
     end
-
   end
 
   defp maybe_put_already_memeber_error(changeset, team_mates, candidate) do
     case candidate in team_mates do
-      true  -> Ecto.Changeset.add_error(changeset, :email, "Already in Team")
+      true -> Ecto.Changeset.add_error(changeset, :email, "Already in Team")
       false -> changeset
     end
   end
-
 end

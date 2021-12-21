@@ -8,8 +8,7 @@ defmodule TeamThinkWeb.UserLiveAuth do
       socket
       |> assign_user(session)
 
-
-      {:cont, socket}
+    {:cont, socket}
   end
 
   def on_mount(:team_members, %{"project_id" => project_id}, session, socket) do
@@ -17,16 +16,16 @@ defmodule TeamThinkWeb.UserLiveAuth do
       socket
       |> assign_user(session)
 
-      case team_member?(socket.assigns.user, project_id) do
-        true ->
-          {:cont, socket}
-        false ->
-          {:halt,
-            socket
-            |> push_redirect(to: "/")
-            |> put_flash(:alert, "Not a member of this team")
-          }
-      end
+    case team_member?(socket.assigns.user, project_id) do
+      true ->
+        {:cont, socket}
+
+      false ->
+        {:halt,
+         socket
+         |> push_redirect(to: "/")
+         |> put_flash(:alert, "Not a member of this team")}
+    end
   end
 
   defp team_member?(user, project_id) do
@@ -37,7 +36,7 @@ defmodule TeamThinkWeb.UserLiveAuth do
 
   defp assign_user(socket, session) do
     socket
-      |> assign_new(:user, fn -> Accounts.get_user_by_session_token(session["user_token"]) end)
-      |> assign_new(:session_id, fn -> session["live_socket_id"] end)
+    |> assign_new(:user, fn -> Accounts.get_user_by_session_token(session["user_token"]) end)
+    |> assign_new(:session_id, fn -> session["live_socket_id"] end)
   end
 end

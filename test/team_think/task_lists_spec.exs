@@ -28,8 +28,11 @@ defmodule TeamThink.TaskListsSpec do
     end
 
     test "should return a requested task_list by its id", context do
-      random_task_list = context[:project_task_lists] |> Enum.random() |> delete_keys([:project, :tasks])
-      fetched_task_list = TaskLists.get_task_list!(random_task_list.id) |> delete_keys([:project, :tasks])
+      random_task_list =
+        context[:project_task_lists] |> Enum.random() |> delete_keys([:project, :tasks])
+
+      fetched_task_list =
+        TaskLists.get_task_list!(random_task_list.id) |> delete_keys([:project, :tasks])
 
       assert fetched_task_list == random_task_list
     end
@@ -50,7 +53,6 @@ defmodule TeamThink.TaskListsSpec do
     end
   end
 
-
   describe "updating task lists" do
     setup do
       %{
@@ -66,7 +68,6 @@ defmodule TeamThink.TaskListsSpec do
 
       assert updated_task_list.description == update_attrs.description
       assert updated_task_list.name == update_attrs.name
-
     end
 
     test "should allow partial updates", context do
@@ -84,7 +85,9 @@ defmodule TeamThink.TaskListsSpec do
       invalid_attrs = Factory.build(:invalid_task_list_params)
       {result, return} = TaskLists.update_task_list(original_task_list, invalid_attrs)
       comparable_original_list = original_task_list |> delete_keys([:project, :tasks])
-      comparable_fetched_list = TaskLists.get_task_list!(original_task_list.id) |> delete_keys([:project, :tasks])
+
+      comparable_fetched_list =
+        TaskLists.get_task_list!(original_task_list.id) |> delete_keys([:project, :tasks])
 
       assert {:error, %Ecto.Changeset{}} = {result, return}
       assert comparable_original_list == comparable_fetched_list

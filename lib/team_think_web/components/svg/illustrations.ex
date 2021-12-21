@@ -1,7 +1,6 @@
 defmodule TeamThinkWeb.Components.Svg.Illustrations do
   use TeamThinkWeb, :component
 
-
   def illustration(assigns) do
     ~H"""
     <div class={@class}>
@@ -9,6 +8,4 @@ defmodule TeamThinkWeb.Components.Svg.Illustrations do
     </div>
     """
   end
-
-
 end

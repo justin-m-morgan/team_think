@@ -59,8 +59,6 @@ defmodule TeamThink.Projects do
     |> Repo.get!(id)
   end
 
-
-
   @doc """
   Creates a project.
 

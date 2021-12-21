@@ -10,19 +10,19 @@ defmodule TeamThinkWeb.Components.Ui.Breadcrumbs do
     {
       :ok,
       socket
-        |> assign(assigns)
-        |> assign(:project, nil)
-        |> assign(:task_list, nil)
-        |> assign(:task, nil)
-        |> assign_resources(assigns)
+      |> assign(assigns)
+      |> assign(:project, nil)
+      |> assign(:task_list, nil)
+      |> assign(:task, nil)
+      |> assign_resources(assigns)
     }
   end
 
   defp assign_resources(socket, %{resource: %Task{} = task}) do
     task =
       task
-        |> TeamThink.Repo.preload([task_list: [:project]])
-        |> Map.from_struct()
+      |> TeamThink.Repo.preload(task_list: [:project])
+      |> Map.from_struct()
 
     task_list = Map.get(task, :task_list)
     project = Map.get(task_list, :project)
@@ -32,15 +32,17 @@ defmodule TeamThinkWeb.Components.Ui.Breadcrumbs do
     |> assign(:task_list, task_list)
     |> assign(:project, project)
   end
+
   defp assign_resources(socket, %{resource: %TaskList{} = task_list}) do
     task_list =
       task_list
-        |> TeamThink.Repo.preload([:project])
+      |> TeamThink.Repo.preload([:project])
 
     socket
-      |> assign(:task_list, task_list)
-      |> assign(:project, Map.get(task_list, :project))
+    |> assign(:task_list, task_list)
+    |> assign(:project, Map.get(task_list, :project))
   end
+
   defp assign_resources(socket, %{resource: %Project{} = project}) do
     assign(socket, :project, project)
   end
@@ -48,8 +50,6 @@ defmodule TeamThinkWeb.Components.Ui.Breadcrumbs do
   defp assign_resources(socket, _), do: socket
 
   def render(assigns) do
-
-
     ~H"""
     <div class="flex justify-start py-4 font-bold">
       <div class="flex items-center space-x-4 grow-0 bg-gray-50 shadow rounded-lg py-4 px-4">

@@ -12,5 +12,4 @@ defmodule TeamThink.Tasks.Task.Query do
     query
     |> where([t], t.task_list_id == ^task_list_id)
   end
-
 end

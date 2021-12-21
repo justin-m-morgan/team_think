@@ -5,7 +5,7 @@ defmodule TeamThink.UserSpec do
   alias TeamThink.Accounts.User
 
   @max_email_length 160
-  @min_password_length 12
+  @min_password_length 8
   @max_password_length 72
 
   describe "registration changeset" do
@@ -83,8 +83,6 @@ defmodule TeamThink.UserSpec do
         refute changeset.valid?
       end
     end
-
-
   end
 
   defp email_generator() do

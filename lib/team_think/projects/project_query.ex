@@ -12,5 +12,4 @@ defmodule TeamThink.Projects.Project.Query do
     query
     |> where([p], p.user_id == ^user.id)
   end
-
 end

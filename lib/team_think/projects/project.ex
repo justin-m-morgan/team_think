@@ -22,7 +22,6 @@ defmodule TeamThink.Projects.Project do
     timestamps()
   end
 
-
   @doc false
   def changeset(project, attrs) do
     project

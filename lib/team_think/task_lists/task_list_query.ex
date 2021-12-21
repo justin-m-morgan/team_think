@@ -12,5 +12,4 @@ defmodule TeamThink.TaskLists.TaskList.Query do
     query
     |> where([tl], tl.project_id == ^project_id)
   end
-
 end

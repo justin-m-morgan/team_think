@@ -30,11 +30,12 @@ defmodule TeamThinkWeb.Components.ResourceIndex do
   def template(assigns) do
     assigns =
       assigns
-        |> assign_new(:svg, fn -> false end)
-        |> assign_new(:breadcrumbs_resource, fn -> false end)
-        |> assign_new(:new_path, fn -> false end)
-        |> assign_new(:edit_link, fn -> false end)
-        |> assign_new(:delete, fn -> false end)
+      |> assign_new(:svg, fn -> false end)
+      |> assign_new(:breadcrumbs_resource, fn -> false end)
+      |> assign_new(:new_path, fn -> false end)
+      |> assign_new(:edit_link, fn -> false end)
+      |> assign_new(:delete, fn -> false end)
+
     ~H"""
 
     <%= if @breadcrumbs_resource do %>
@@ -115,8 +116,8 @@ defmodule TeamThinkWeb.Components.ResourceIndex do
   def action_items(assigns) do
     assigns =
       assigns
-        |> assign_new(:edit_link, fn -> false end)
-        |> assign_new(:delete, fn -> true end)
+      |> assign_new(:edit_link, fn -> false end)
+      |> assign_new(:delete, fn -> true end)
 
     ~H"""
     <div class="mt-auto flex justify-center space-x-3 pt-8">
@@ -164,5 +165,4 @@ defmodule TeamThinkWeb.Components.ResourceIndex do
     </div>
     """
   end
-
 end

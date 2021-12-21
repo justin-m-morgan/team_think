@@ -5,7 +5,6 @@ defmodule TeamThink.Repo.Migrations.CreateTeamMates do
     create table(:team_mates) do
       add :team_id, references(:teams, on_delete: :delete_all)
       add :user_id, references(:users, on_delete: :delete_all)
-
     end
 
     create index(:team_mates, [:team_id])

@@ -51,7 +51,7 @@ defmodule TeamThinkWeb.UserSettingsControllerTest do
 
       response = html_response(old_password_conn, 200)
 
-      assert response =~ "should be at least 12 character(s)"
+      assert response =~ "should be at least 8 character(s)"
       assert response =~ "does not match password"
       assert response =~ "is not valid"
 
@@ -85,7 +85,6 @@ defmodule TeamThinkWeb.UserSettingsControllerTest do
       response = html_response(conn, 200)
 
       assert response =~ "must have the @ sign and no spaces"
-
     end
   end
 

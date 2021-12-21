@@ -8,7 +8,7 @@ defmodule TeamThink.AccountsTest do
   alias TeamThink.Accounts.{User, UserToken}
 
   @max_email_length 160
-  @min_password_length 12
+  @min_password_length 8
   @max_password_length 72
 
   describe "get_user_by_email/1" do
@@ -165,8 +165,7 @@ defmodule TeamThink.AccountsTest do
     end
 
     test "validates email", %{user: user, password: password} do
-      {:error, changeset} =
-        Accounts.apply_user_email(user, password, %{email: "not valid"})
+      {:error, changeset} = Accounts.apply_user_email(user, password, %{email: "not valid"})
 
       assert %{email: ["must have the @ sign and no spaces"]} = errors_on(changeset)
     end
@@ -174,8 +173,7 @@ defmodule TeamThink.AccountsTest do
     test "validates maximum value for email for security", %{user: user, password: password} do
       too_long = String.duplicate("db", 100)
 
-      {:error, changeset} =
-        Accounts.apply_user_email(user, password, %{email: too_long})
+      {:error, changeset} = Accounts.apply_user_email(user, password, %{email: too_long})
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
@@ -183,8 +181,7 @@ defmodule TeamThink.AccountsTest do
     test "validates email uniqueness", %{user: user, password: password} do
       %{email: email} = insert(:valid_user)
 
-      {:error, changeset} =
-        Accounts.apply_user_email(user, password, %{email: email})
+      {:error, changeset} = Accounts.apply_user_email(user, password, %{email: email})
 
       assert "has already been taken" in errors_on(changeset).email
     end
@@ -302,7 +299,7 @@ defmodule TeamThink.AccountsTest do
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 8 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end
@@ -511,7 +508,7 @@ defmodule TeamThink.AccountsTest do
         })
 
       assert %{
-               password: ["should be at least 12 character(s)"],
+               password: ["should be at least 8 character(s)"],
                password_confirmation: ["does not match password"]
              } = errors_on(changeset)
     end

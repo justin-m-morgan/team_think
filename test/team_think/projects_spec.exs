@@ -49,7 +49,6 @@ defmodule TeamThink.ProjectSpec do
     end
   end
 
-
   describe "updating projects" do
     setup do
       %{
@@ -65,7 +64,6 @@ defmodule TeamThink.ProjectSpec do
 
       assert updated_project.description == update_attrs.description
       assert updated_project.name == update_attrs.name
-
     end
 
     test "should allow partial updates", context do
@@ -83,7 +81,9 @@ defmodule TeamThink.ProjectSpec do
       invalid_attrs = Factory.build(:invalid_project_params)
       {result, return} = Projects.update_project(original_project, invalid_attrs)
       comparable_original_list = delete_keys(original_project, [:user, :team])
-      comparable_fetched_list = Projects.get_project!(original_project.id) |> delete_keys([:user, :team])
+
+      comparable_fetched_list =
+        Projects.get_project!(original_project.id) |> delete_keys([:user, :team])
 
       assert {:error, %Ecto.Changeset{}} = {result, return}
       assert comparable_original_list == comparable_fetched_list

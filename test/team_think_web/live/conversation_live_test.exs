@@ -67,7 +67,10 @@ defmodule TeamThinkWeb.ConversationLiveTest do
     test "deletes conversation in listing", %{conn: conn, conversation: conversation} do
       {:ok, index_live, _html} = live(conn, Routes.conversation_index_path(conn, :index))
 
-      assert index_live |> element("#conversation-#{conversation.id} a", "Delete") |> render_click()
+      assert index_live
+             |> element("#conversation-#{conversation.id} a", "Delete")
+             |> render_click()
+
       refute has_element?(index_live, "#conversation-#{conversation.id}")
     end
   end
@@ -76,13 +79,15 @@ defmodule TeamThinkWeb.ConversationLiveTest do
     setup [:create_conversation]
 
     test "displays conversation", %{conn: conn, conversation: conversation} do
-      {:ok, _show_live, html} = live(conn, Routes.conversation_show_path(conn, :show, conversation))
+      {:ok, _show_live, html} =
+        live(conn, Routes.conversation_show_path(conn, :show, conversation))
 
       assert html =~ "Show Conversation"
     end
 
     test "updates conversation within modal", %{conn: conn, conversation: conversation} do
-      {:ok, show_live, _html} = live(conn, Routes.conversation_show_path(conn, :show, conversation))
+      {:ok, show_live, _html} =
+        live(conn, Routes.conversation_show_path(conn, :show, conversation))
 
       assert show_live |> element("a", "Edit") |> render_click() =~
                "Edit Conversation"

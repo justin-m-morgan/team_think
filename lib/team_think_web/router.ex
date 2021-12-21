@@ -103,14 +103,16 @@ defmodule TeamThinkWeb.Router do
       live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/edit", TaskLive.Index, :edit
 
       live "/projects/:project_id/task_lists/:list_id/tasks/:task_id", TaskLive.Show, :show
-      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/show/edit", TaskLive.Show, :edit
 
-      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/conversations", ConversationLive.Show, :show
+      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/show/edit",
+           TaskLive.Show,
+           :edit
+
+      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/conversations",
+           ConversationLive.Show,
+           :show
     end
   end
-
-
-
 
   scope "/", TeamThinkWeb do
     pipe_through [:browser]

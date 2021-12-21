@@ -10,19 +10,20 @@ defmodule TeamThink.TeamsTest do
 
     import TeamThink.Factory
 
-
     test "should be able to fetch a given team by its id" do
       created_team = insert(:team) |> delete_keys([:project, :team_mates])
       fetched_team = Teams.get_team!(created_team.id) |> delete_keys([:project, :team_mates])
-      assert  created_team == fetched_team
+      assert created_team == fetched_team
     end
 
     test "should be able to fetch a given team by its project_id" do
       project = insert(:project)
       created_team = project.team |> delete_keys([:project, :team_mates])
-      fetched_team = Teams.get_team_by_project_id!(project.id) |> delete_keys([:project, :team_mates])
 
-      assert  created_team == fetched_team
+      fetched_team =
+        Teams.get_team_by_project_id!(project.id) |> delete_keys([:project, :team_mates])
+
+      assert created_team == fetched_team
     end
 
     test "should be able to create a team by providing valid data" do
@@ -51,8 +52,7 @@ defmodule TeamThink.TeamsTest do
       team = insert(:team, team_mates: team_mates)
       fetched_teams_teammates = Teams.get_teammates(team)
 
-      assert Enum.all?(team_mates, &(&1 in fetched_teams_teammates) )
+      assert Enum.all?(team_mates, &(&1 in fetched_teams_teammates))
     end
   end
-
 end

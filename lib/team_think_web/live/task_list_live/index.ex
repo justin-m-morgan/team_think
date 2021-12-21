@@ -15,18 +15,16 @@ defmodule TeamThinkWeb.TaskListLive.Index do
     project_id = Map.get(params, "project_id")
 
     {:ok,
-      socket
-      |> assign(:project, Projects.get_project!(project_id))
-      |> assign(:project_id, project_id)
-      |> assign(:task_lists, list_task_lists(project_id))
-    }
+     socket
+     |> assign(:project, Projects.get_project!(project_id))
+     |> assign(:project_id, project_id)
+     |> assign(:task_lists, list_task_lists(project_id))}
   end
 
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
-
 
   defp apply_action(socket, :edit, %{"list_id" => id}) do
     socket
@@ -57,8 +55,8 @@ defmodule TeamThinkWeb.TaskListLive.Index do
   defp list_task_lists(project_id) when is_binary(project_id) do
     project_id |> String.to_integer() |> list_task_lists()
   end
+
   defp list_task_lists(project_id) do
     TaskLists.get_task_lists_by_project_id(project_id)
   end
-
 end

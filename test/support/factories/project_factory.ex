@@ -30,7 +30,6 @@ defmodule TeamThink.Factory.ProjectFactory do
           user: build(:valid_user)
         }
       end
-
     end
   end
 end

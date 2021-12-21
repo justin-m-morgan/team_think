@@ -8,8 +8,7 @@ defmodule TeamThink.Factory.TaskFactory do
       def task_create_params_factory() do
         %{
           name: Faker.Lorem.sentence(2..5),
-          description: Faker.Lorem.sentence(5..10),
-
+          description: Faker.Lorem.sentence(5..10)
         }
       end
 
@@ -22,6 +21,7 @@ defmodule TeamThink.Factory.TaskFactory do
 
       def task_params_factory() do
         task_list = insert(:task_list)
+
         %{
           name: Faker.Lorem.sentence(2..5),
           description: Faker.Lorem.sentence(5..10),
@@ -32,9 +32,10 @@ defmodule TeamThink.Factory.TaskFactory do
 
       def invalid_task_params_factory() do
         task_list = insert(:task_list)
+
         %{
           name: "",
-          description: nil,
+          description: nil
         }
       end
 
@@ -44,7 +45,6 @@ defmodule TeamThink.Factory.TaskFactory do
           description: Faker.Lorem.sentence(5..10)
         }
       end
-
     end
   end
 end

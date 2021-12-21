@@ -4,17 +4,18 @@ defmodule TeamThinkWeb.MessageLive.FormComponent do
   alias TeamThink.Messages
   alias TeamThink.Conversations
 
-
   def mount(%{"task_id" => task_id}, _session, socket) do
     conversation = Conversations.get_conversation_by_task_id!(task_id)
 
     {:ok, assign(socket, :conversation, conversation)}
   end
+
   def mount(%{"list_id" => list_id}, _session, socket) do
     conversation = Conversations.get_conversation_by_list_id!(list_id)
 
     {:ok, assign(socket, :conversation, conversation)}
   end
+
   def mount(%{"project_id" => project_id}, _session, socket) do
     conversation = Conversations.get_conversation_by_project_id!(project_id)
 
@@ -56,12 +57,10 @@ defmodule TeamThinkWeb.MessageLive.FormComponent do
       {:ok, _message} ->
         {:noreply,
          socket
-         |> assign(:changeset, Messages.change_message(%Messages.Message{}))
-      }
+         |> assign(:changeset, Messages.change_message(%Messages.Message{}))}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
-
 end

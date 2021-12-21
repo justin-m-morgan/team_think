@@ -8,8 +8,8 @@ defmodule TeamThinkWeb.Components.ResourceShow do
   def show(assigns) do
     assigns =
       assigns
-        |> assign_new(:edit_path, fn -> false end)
-        |> assign_new(:navigation_items, fn -> false end)
+      |> assign_new(:edit_path, fn -> false end)
+      |> assign_new(:navigation_items, fn -> false end)
 
     ~H"""
     <.live_component module={Ui.Breadcrumbs} id="breadcrumbs" resource={@resource} />
@@ -45,7 +45,6 @@ defmodule TeamThinkWeb.Components.ResourceShow do
     </div>
     """
   end
-
 
   defp navigation_item(assigns) do
     ~H"""

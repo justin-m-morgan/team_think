@@ -9,7 +9,6 @@ defmodule TeamThink.Factory.ConversationFactory do
           project: build(:project)
         }
       end
-
     end
   end
 end

@@ -43,12 +43,11 @@ defmodule TeamThinkWeb.TaskListLive.FormComponent do
 
   defp save_task_list(socket, :new, task_list_params) do
     with {:ok, task_list} <- TaskLists.create_task_list(task_list_params),
-        {:ok, _conversation} <- Conversations.create_conversation(task_list)
-    do
-        {:noreply,
-         socket
-         |> put_flash(:info, "Task list created successfully")
-         |> push_redirect(to: socket.assigns.return_to)}
+         {:ok, _conversation} <- Conversations.create_conversation(task_list) do
+      {:noreply,
+       socket
+       |> put_flash(:info, "Task list created successfully")
+       |> push_redirect(to: socket.assigns.return_to)}
     else
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}

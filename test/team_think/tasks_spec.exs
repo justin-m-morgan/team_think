@@ -22,7 +22,6 @@ defmodule TeamThink.TasksSpec do
       parent_task_list = context[:parent_task_list]
       fetched_tasks = Tasks.get_tasks_by_task_list_id(parent_task_list.id)
 
-
       assert Enum.all?(fetched_tasks, fn task -> task.task_list_id == parent_task_list.id end)
     end
 
@@ -49,7 +48,6 @@ defmodule TeamThink.TasksSpec do
     end
   end
 
-
   describe "updating tasks" do
     setup do
       %{
@@ -65,7 +63,6 @@ defmodule TeamThink.TasksSpec do
 
       assert updated_task.description == update_attrs.description
       assert updated_task.name == update_attrs.name
-
     end
 
     test "should allow partial updates", context do

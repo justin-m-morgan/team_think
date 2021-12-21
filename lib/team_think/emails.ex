@@ -17,7 +17,6 @@ defmodule TeamThink.Emails do
     end
   end
 
-
   def new_email(recipient, subject, template, assigns) do
     new()
     |> to(recipient)
@@ -35,6 +34,4 @@ defmodule TeamThink.Emails do
 
     Map.put(email, :html_body, mjml_compiled)
   end
-
-
 end

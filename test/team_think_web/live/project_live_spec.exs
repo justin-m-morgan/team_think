@@ -10,7 +10,6 @@ defmodule TeamThinkWeb.ProjectLiveTest do
   # @projects_container_tag ~s/[data-test="projects-container"]/
   @project_details_tag ~s/[data-test="project-details"]/
 
-
   describe "Empty Index LiveView" do
     setup [:register_and_log_in_user]
 
@@ -19,7 +18,6 @@ defmodule TeamThinkWeb.ProjectLiveTest do
       {:ok, _index_live, html} = live(conn, Routes.project_index_path(conn, :index))
 
       assert html =~ empty_placeholder_tag
-
     end
   end
 
@@ -27,7 +25,8 @@ defmodule TeamThinkWeb.ProjectLiveTest do
     setup [:register_and_log_in_user, :create_many_projects]
 
     test "should render an item for each project", %{conn: conn} do
-      generated_count = 3 # arbitrary, per hardcoded value in helper
+      # arbitrary, per hardcoded value in helper
+      generated_count = 3
 
       {:ok, _index_live, html} = live(conn, Routes.project_index_path(conn, :index))
 
@@ -92,12 +91,11 @@ defmodule TeamThinkWeb.ProjectLiveTest do
 
       project_id =
         index_live
-          |> form("#project-form", project: new_params)
-          |> render_submit(%{"user_id" => user.id})
-          |> follow_redirect(conn)
-          |> then(&elem(&1, 2))
-          |> get_project_id_from_index()
-
+        |> form("#project-form", project: new_params)
+        |> render_submit(%{"user_id" => user.id})
+        |> follow_redirect(conn)
+        |> then(&elem(&1, 2))
+        |> get_project_id_from_index()
 
       assert Teams.get_team_by_project_id!(project_id)
     end
@@ -105,12 +103,12 @@ defmodule TeamThinkWeb.ProjectLiveTest do
 
   defp get_project_id_from_index(html) do
     html
-      |> Floki.parse_document!()
-      |> Floki.find(~s/[data-test="project-details"]/)
-      |> Floki.attribute("id")
-      |> List.first()
-      |> String.split("-")
-      |> List.last
+    |> Floki.parse_document!()
+    |> Floki.find(~s/[data-test="project-details"]/)
+    |> Floki.attribute("id")
+    |> List.first()
+    |> String.split("-")
+    |> List.last()
   end
 
   describe "Show LiveView" do

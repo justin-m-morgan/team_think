@@ -7,6 +7,7 @@ defmodule TeamThink.Factory.TaskListFactory do
 
       def task_list_params_factory() do
         project = insert(:project)
+
         %{
           name: Faker.Lorem.sentence(2..5),
           description: Faker.Lorem.sentence(10..20),

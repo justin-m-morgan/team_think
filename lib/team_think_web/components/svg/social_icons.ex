@@ -46,6 +46,7 @@ defmodule TeamThinkWeb.Components.Svg.SocialIcons do
 
   defp svg_template(assigns) do
     assigns = assign_new(assigns, :class, fn -> nil end)
+
     ~H"""
     <svg
       aria-hidden="true"

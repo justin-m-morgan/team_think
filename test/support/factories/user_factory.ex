@@ -5,7 +5,7 @@ defmodule TeamThink.Factory.UserFactory do
     quote do
       alias TeamThink.Accounts.User
 
-      @min_password_length 12
+      @min_password_length 8
       @max_password_length 72
 
       def valid_email_factory() do

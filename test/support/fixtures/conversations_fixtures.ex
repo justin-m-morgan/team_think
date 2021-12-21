@@ -10,9 +10,7 @@ defmodule TeamThink.ConversationsFixtures do
   def conversation_fixture(attrs \\ %{}) do
     {:ok, conversation} =
       attrs
-      |> Enum.into(%{
-
-      })
+      |> Enum.into(%{})
       |> TeamThink.Conversations.create_conversation()
 
     conversation

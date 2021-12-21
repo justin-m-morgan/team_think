@@ -9,7 +9,6 @@ defmodule TeamThinkWeb.ProjectLive.Show do
   alias TeamThink.Teams
   alias TeamThinkWeb.Components.ResourceShow
 
-
   @impl true
   def handle_params(%{"project_id" => id}, _, socket) do
     project = Projects.get_project!(id)
@@ -19,10 +18,8 @@ defmodule TeamThinkWeb.ProjectLive.Show do
      |> assign(:page_title, page_title(socket.assigns.live_action))
      |> assign(:project, project)
      |> assign_team(project)
-     |> assign_navigation_items(project)
-  }
+     |> assign_navigation_items(project)}
   end
-
 
   defp assign_team(socket, project) do
     assign(socket, :team, Teams.get_team_by_project_id!(project.id, preload: :team_mates))
@@ -44,7 +41,7 @@ defmodule TeamThinkWeb.ProjectLive.Show do
       },
       %{
         illustration_name: "next_tasks",
-        to: Routes.task_list_index_path(socket, :index, project_id ),
+        to: Routes.task_list_index_path(socket, :index, project_id),
         label: "Task Lists"
       },
       %{
@@ -54,5 +51,4 @@ defmodule TeamThinkWeb.ProjectLive.Show do
       }
     ]
   end
-
 end

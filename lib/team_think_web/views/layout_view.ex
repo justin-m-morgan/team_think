@@ -13,5 +13,4 @@ defmodule TeamThinkWeb.LayoutView do
     </svg>
     """
   end
-
 end

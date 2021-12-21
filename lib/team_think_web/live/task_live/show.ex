@@ -15,14 +15,13 @@ defmodule TeamThinkWeb.TaskLive.Show do
 
     {:noreply,
      socket
-      |> assign(:project_id, project_id)
-      |> assign(:list_id, list_id)
-      |> assign(:task_list_id, list_id)
-      |> assign(:task_id, task_id)
-      |> assign(:page_title, page_title(socket.assigns.live_action))
-      |> assign(:task, Tasks.get_task!(task_id))
-      |> assign(:navigation_items, navigation_items(socket, project_id, list_id, task_id))
-    }
+     |> assign(:project_id, project_id)
+     |> assign(:list_id, list_id)
+     |> assign(:task_list_id, list_id)
+     |> assign(:task_id, task_id)
+     |> assign(:page_title, page_title(socket.assigns.live_action))
+     |> assign(:task, Tasks.get_task!(task_id))
+     |> assign(:navigation_items, navigation_items(socket, project_id, list_id, task_id))}
   end
 
   defp page_title(:show), do: "Show Task"

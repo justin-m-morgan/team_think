@@ -53,8 +53,7 @@ defmodule TeamThinkWeb.ProjectLive.FormComponent do
     with {:ok, project} <- Projects.create_project(project_params),
          {:ok, team} <- Teams.create_team(%{project_id: project.id}),
          {:ok, _team} <- Teams.add_team_member(team, current_user),
-         {:ok, _conversation} <- Conversations.create_conversation(project)
-         do
+         {:ok, _conversation} <- Conversations.create_conversation(project) do
       {:noreply,
        socket
        |> put_flash(:info, "Project created successfully")

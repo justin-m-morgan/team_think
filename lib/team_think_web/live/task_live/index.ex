@@ -16,10 +16,10 @@ defmodule TeamThinkWeb.TaskLive.Index do
     {
       :ok,
       socket
-        |> assign(:project_id, project_id |> String.to_integer())
-        |> assign(:task_list_id, task_list_id |> String.to_integer())
-        |> assign(:task_list, TaskLists.get_task_list!(task_list_id))
-        |> assign(:tasks, list_tasks(task_list_id))
+      |> assign(:project_id, project_id |> String.to_integer())
+      |> assign(:task_list_id, task_list_id |> String.to_integer())
+      |> assign(:task_list, TaskLists.get_task_list!(task_list_id))
+      |> assign(:tasks, list_tasks(task_list_id))
     }
   end
 
@@ -57,8 +57,8 @@ defmodule TeamThinkWeb.TaskLive.Index do
   defp list_tasks(task_list_id) when is_binary(task_list_id) do
     task_list_id |> String.to_integer() |> list_tasks()
   end
+
   defp list_tasks(task_list_id) do
     Tasks.get_tasks_by_task_list_id(task_list_id)
   end
-
 end

@@ -27,18 +27,21 @@ defmodule TeamThink.Conversations.Conversation do
     |> change()
     |> put_assoc(:project, project)
   end
+
   def changeset(conversation, %TaskList{} = task_list) do
     conversation
     |> Repo.preload(:project)
     |> change()
     |> put_assoc(:task_list, task_list)
   end
+
   def changeset(conversation, %Task{} = task) do
     conversation
     |> Repo.preload(:project)
     |> change()
     |> put_assoc(:task, task)
   end
+
   # def changeset(conversation, attrs) do
   #   conversation
   #   |> cast(attrs, [])

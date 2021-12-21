@@ -21,7 +21,7 @@ defmodule TeamThinkWeb.ProjectLive.Index do
 
     socket
     |> assign(:teams, teams)
-    |> assign(:projects, Enum.map(teams, &(&1.project)))
+    |> assign(:projects, Enum.map(teams, & &1.project))
     |> group_projects()
   end
 
@@ -48,12 +48,10 @@ defmodule TeamThinkWeb.ProjectLive.Index do
   #   |> Enum.sort_by(&(&1[sort_key]))
   # end
 
-
   @impl true
   def handle_params(params, _url, socket) do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
-
 
   defp apply_action(socket, :edit, %{"list_id" => id}) do
     socket
@@ -78,8 +76,6 @@ defmodule TeamThinkWeb.ProjectLive.Index do
     project = Projects.get_project!(id)
     {:ok, _} = Projects.delete_project(project)
 
-
-    { :noreply, assign_projects(socket)}
+    {:noreply, assign_projects(socket)}
   end
-
 end

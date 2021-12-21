@@ -57,7 +57,6 @@ defmodule TeamThink.Teams do
     |> Repo.one!()
   end
 
-
   @doc """
   Creates a team.
 
@@ -152,6 +151,4 @@ defmodule TeamThink.Teams do
   def change_team_members(%Team{} = team, team_mate \\ nil) do
     Team.add_teammate_changeset(team, team_mate)
   end
-
-
 end

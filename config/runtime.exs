@@ -59,9 +59,9 @@ if config_env() == :prod do
   # Also, you may need to configure the Swoosh API client of your choice if you
   # are not using SMTP. Here is an example of the configuration:
   #
-  config :team_think, TeamThink.Mailer,
-    adapter: Swoosh.Adapters.Sendgrid,
-    api_key: System.get_env("SENDGRID_API_KEY")
+  # config :team_think, TeamThink.Mailer,
+  #   adapter: Swoosh.Adapters.Sendgrid,
+  #   api_key: System.get_env("SENDGRID_API_KEY")
 
   #     config :team_think, TeamThink.Mailer,
   #       adapter: Swoosh.Adapters.Mailgun,
@@ -71,7 +71,7 @@ if config_env() == :prod do
   # For this example you need include a HTTP client required by Swoosh API client.
   # Swoosh supports Hackney and Finch out of the box:
   #
-  config :swoosh, :api_client, Swoosh.ApiClient.Hackney
+  # config :swoosh, :api_client, Swoosh.ApiClient.Hackney
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
 end

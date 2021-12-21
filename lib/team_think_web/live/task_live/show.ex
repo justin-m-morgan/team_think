@@ -28,11 +28,11 @@ defmodule TeamThinkWeb.TaskLive.Show do
   defp page_title(:show), do: "Show Task"
   defp page_title(:edit), do: "Edit Task"
 
-  defp navigation_items(socket, project_id, _list_id, _task_id) do
+  defp navigation_items(socket, project_id, list_id, task_id) do
     [
       %{
         illustration_name: "respond",
-        to: Routes.project_show_path(socket, :show, project_id),
+        to: Routes.conversation_show_path(socket, :show, project_id, list_id, task_id),
         label: "Conversation"
       }
     ]

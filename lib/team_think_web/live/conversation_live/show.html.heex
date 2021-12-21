@@ -1,9 +1,14 @@
 <ResourceShow.show 
-  resource_name="project"
-  resource={@project}
+  resource_name={@resource_name}
+  resource={@resource}
 >
-  <:heading><%= @project.name %> Conversation</:heading>
-  <:description><p class="text-center text-2xl font-thin">A place to permanently record information related to the overall project concerns.</p></:description>
+  <:heading><%= @resource.name %> Conversation</:heading>
+  <:description>
+    <p class="text-center text-2xl font-thin">
+      A place to permanently record information related to the overall 
+      <%= @pretty_resource_name %> concerns.
+    </p>
+  </:description>
 
 <div class="px-4 py-3 md:col-span-3 min-h-[16rem] flex flex-col justify-between rounded-lg border">
   <div class="pb-2">

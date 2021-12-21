@@ -35,7 +35,7 @@ defmodule TeamThinkWeb.TaskListLive.Show do
       },
       %{
         illustration_name: "respond",
-        to: Routes.project_show_path(socket, :show, project_id),
+        to: Routes.conversation_show_path(socket, :show, project_id, list_id),
         label: "Conversation"
       }
     ]

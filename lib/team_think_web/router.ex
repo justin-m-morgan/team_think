@@ -19,13 +19,6 @@ defmodule TeamThinkWeb.Router do
 
   scope "/", TeamThinkWeb do
     pipe_through :browser
-
-    # live "/conversations", ConversationLive.Index, :index
-    # live "/conversations/new", ConversationLive.Index, :new
-    # live "/conversations/:id/edit", ConversationLive.Index, :edit
-
-    # live "/conversations/:id", ConversationLive.Show, :show
-    # live "/conversations/:id/show/edit", ConversationLive.Show, :edit
   end
 
   # Other scopes may use custom stacks.
@@ -103,12 +96,16 @@ defmodule TeamThinkWeb.Router do
       live "/projects/:project_id/task_lists/:list_id", TaskListLive.Show, :show
       live "/projects/:project_id/task_lists/:list_id/show/edit", TaskListLive.Show, :edit
 
+      live "/projects/:project_id/task_lists/:list_id/conversations", ConversationLive.Show, :show
+
       live "/projects/:project_id/task_lists/:list_id/tasks", TaskLive.Index, :index
       live "/projects/:project_id/task_lists/:list_id/tasks/new", TaskLive.Index, :new
       live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/edit", TaskLive.Index, :edit
 
       live "/projects/:project_id/task_lists/:list_id/tasks/:task_id", TaskLive.Show, :show
       live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/show/edit", TaskLive.Show, :edit
+
+      live "/projects/:project_id/task_lists/:list_id/tasks/:task_id/conversations", ConversationLive.Show, :show
     end
   end
 

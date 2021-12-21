@@ -5,14 +5,20 @@ defmodule TeamThinkWeb.MessageLive.FormComponent do
   alias TeamThink.Conversations
 
 
+  def mount(%{"task_id" => task_id}, _session, socket) do
+    conversation = Conversations.get_conversation_by_task_id!(task_id)
+
+    {:ok, assign(socket, :conversation, conversation)}
+  end
+  def mount(%{"list_id" => list_id}, _session, socket) do
+    conversation = Conversations.get_conversation_by_list_id!(list_id)
+
+    {:ok, assign(socket, :conversation, conversation)}
+  end
   def mount(%{"project_id" => project_id}, _session, socket) do
     conversation = Conversations.get_conversation_by_project_id!(project_id)
 
-    {
-      :ok,
-      socket
-        |> assign(:conversation, conversation)
-    }
+    {:ok, assign(socket, :conversation, conversation)}
   end
 
   @impl true

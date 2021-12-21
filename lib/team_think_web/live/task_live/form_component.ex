@@ -2,6 +2,7 @@ defmodule TeamThinkWeb.TaskLive.FormComponent do
   use TeamThinkWeb, :live_component
 
   alias TeamThink.Tasks
+  alias TeamThink.Conversations
 
 
   @impl true
@@ -43,13 +44,15 @@ defmodule TeamThinkWeb.TaskLive.FormComponent do
   end
 
   defp save_task(socket, :new, task_params) do
-    case Tasks.create_task(task_params) do
-      {:ok, _task} ->
-        {:noreply,
+    with {:ok, task} <- Tasks.create_task(task_params),
+        {:ok, _conversation} <- Conversations.create_conversation(task)
+      do
+
+    {:noreply,
          socket
          |> put_flash(:info, "Task created successfully")
          |> push_redirect(to: socket.assigns.return_to)}
-
+      else
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
     end

@@ -68,6 +68,64 @@ defmodule TeamThink.Conversations do
     |> Repo.one!()
   end
 
+  @doc """
+  Gets a single conversation by task_list's id.
+
+  Raises `Ecto.NoResultsError` if the Conversation does not exist.
+
+  ## Examples
+
+      iex> get_conversation_by_list_id!(123)
+      %Conversation{}
+
+      iex> get_conversation_by_list_id!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_conversation_by_list_id!(list_id, opts \\ [])
+  def get_conversation_by_list_id!(list_id, opts) when is_binary(list_id) do
+    list_id
+    |> String.to_integer()
+    |> get_conversation_by_list_id!(opts)
+  end
+  def get_conversation_by_list_id!(list_id, opts) do
+    preloads = opts[:preload] || []
+
+    Conversation
+    |> where([c], c.task_list_id == ^list_id)
+    |> preload(^preloads)
+    |> Repo.one!()
+  end
+
+  @doc """
+  Gets a single conversation by task_id.
+
+  Raises `Ecto.NoResultsError` if the Conversation does not exist.
+
+  ## Examples
+
+      iex> get_conversation_by_task_id!(123)
+      %Conversation{}
+
+      iex> get_conversation_by_task_id!(456)
+      ** (Ecto.NoResultsError)
+
+  """
+  def get_conversation_by_task_id!(task_id, opts \\ [])
+  def get_conversation_by_task_id!(task_id, opts) when is_binary(task_id) do
+    task_id
+    |> String.to_integer()
+    |> get_conversation_by_task_id!(opts)
+  end
+  def get_conversation_by_task_id!(task_id, opts) do
+    preloads = opts[:preload] || []
+
+    Conversation
+    |> where([c], c.task_id == ^task_id)
+    |> preload(^preloads)
+    |> Repo.one!()
+  end
+
 
 
   @doc """

@@ -294,7 +294,7 @@ defmodule TeamThink.AccountsTest do
     test "validates password", %{user: user, password: password} do
       {:error, changeset} =
         Accounts.update_user_password(user, password, %{
-          password: "not valid",
+          password: "short",
           password_confirmation: "another"
         })
 

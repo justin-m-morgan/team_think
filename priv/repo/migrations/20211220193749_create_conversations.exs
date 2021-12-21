@@ -3,10 +3,10 @@ defmodule TeamThink.Repo.Migrations.CreateConversations do
 
   def change do
     create table(:conversations) do
-      add :project_id, references(:projects, on_delete: :nothing)
-      add :task_list_id, references(:task_lists, on_delete: :nothing)
-      add :task_id, references(:tasks, on_delete: :nothing)
-      add :team_id, references(:teams, on_delete: :nothing)
+      add :project_id, references(:projects, on_delete: :delete_all)
+      add :task_list_id, references(:task_lists, on_delete: :delete_all)
+      add :task_id, references(:tasks, on_delete: :delete_all)
+      add :team_id, references(:teams, on_delete: :delete_all)
 
       timestamps()
     end
